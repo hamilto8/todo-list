@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/addTodo.js":
-/*!************************!*\
-  !*** ./src/addTodo.js ***!
-  \************************/
+/***/ "./src/addTodoHTML.js":
+/*!****************************!*\
+  !*** ./src/addTodoHTML.js ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst addTodo = () => {\r\n    return `\r\n        <div>\r\n            <p>Add your todo here</p>\r\n            <input type=\"text\" />\r\n        </div>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addTodo);\n\n//# sourceURL=webpack://todo-list/./src/addTodo.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _addTodoLogic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addTodoLogic */ \"./src/addTodoLogic.js\");\n\r\n\r\nconst addTodoHTML = () => {\r\n    return `\r\n        <div>\r\n            <form id=\"add-todo-project-form\">\r\n                <label for=\"new-todo\">Add Your Project here</label>\r\n                <input id=\"new-todo\" type=\"text\"/>\r\n            </form>\r\n        </div>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addTodoHTML);\n\n//# sourceURL=webpack://todo-list/./src/addTodoHTML.js?");
+
+/***/ }),
+
+/***/ "./src/addTodoLogic.js":
+/*!*****************************!*\
+  !*** ./src/addTodoLogic.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction createTodoProject(projectName){\r\n    return `\r\n        <div class=\"project\">${projectName}</div>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createTodoProject);\n\n//# sourceURL=webpack://todo-list/./src/addTodoLogic.js?");
 
 /***/ }),
 
@@ -26,7 +36,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst homePage = () => {\r\n    return `\r\n    <div>\r\n        Your todos are here.\r\n    </div>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (homePage);\n\n//# sourceURL=webpack://todo-list/./src/homePage.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo */ \"./src/todo.js\");\n/* harmony import */ var _todoProject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todoProject */ \"./src/todoProject.js\");\n\r\n\r\n\r\n\r\nconst homePage = () => {\r\n    let div = document.createElement('div');\r\n    let h4 = document.createElement('h4');\r\n    h4.innerText = 'Projects';\r\n    div.appendChild(h4);\r\n    div.appendChild(_todoProject__WEBPACK_IMPORTED_MODULE_1__.todoProjectListUl);\r\n    return div;\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (homePage);\n\n//# sourceURL=webpack://todo-list/./src/homePage.js?");
 
 /***/ }),
 
@@ -36,7 +46,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _addTodo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addTodo */ \"./src/addTodo.js\");\n/* harmony import */ var _homePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./homePage */ \"./src/homePage.js\");\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./todo */ \"./src/todo.js\");\n/* harmony import */ var _todoProject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./todoProject */ \"./src/todoProject.js\");\nconst contentDiv = document.querySelector('#content');\r\nconst addBtn = document.querySelector('.addBtn');\r\nconst homeBtn = document.querySelector('.homeBtn');\r\n\r\n\r\n\r\n\r\n\r\n\r\naddBtn.addEventListener('click', addTodoForm);\r\nhomeBtn.addEventListener('click', showHome);\r\n\r\nfunction showHome(){\r\n    contentDiv.innerHTML = (0,_homePage__WEBPACK_IMPORTED_MODULE_1__.default)();\r\n}\r\n\r\nfunction addTodoForm(){\r\n    contentDiv.innerHTML = (0,_addTodo__WEBPACK_IMPORTED_MODULE_0__.default)();\r\n}\r\n\r\nwindow.onload = () => {\r\n    contentDiv.innerHTML = (0,_todoProject__WEBPACK_IMPORTED_MODULE_3__.default)();\r\n}\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _addTodoHTML__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addTodoHTML */ \"./src/addTodoHTML.js\");\n/* harmony import */ var _homePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./homePage */ \"./src/homePage.js\");\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./todo */ \"./src/todo.js\");\n/* harmony import */ var _todoProject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./todoProject */ \"./src/todoProject.js\");\nconst contentDiv = document.querySelector('#content');\r\nconst addBtn = document.querySelector('.addBtn');\r\nconst homeBtn = document.querySelector('.homeBtn');\r\n\r\n\r\n\r\n\r\n\r\n\r\naddBtn.addEventListener('click', addTodoForm);\r\nhomeBtn.addEventListener('click', showHome);\r\n\r\nfunction showHome(){\r\n    contentDiv.innerHTML = (0,_homePage__WEBPACK_IMPORTED_MODULE_1__.default)();\r\n}\r\n\r\nfunction addTodoForm(){\r\n    contentDiv.innerHTML = (0,_addTodoHTML__WEBPACK_IMPORTED_MODULE_0__.default)();\r\n}\r\n\r\nwindow.onload = () => {\r\n    contentDiv.appendChild((0,_homePage__WEBPACK_IMPORTED_MODULE_1__.default)());\r\n    console.log(contentDiv);\r\n}\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ }),
 
@@ -46,7 +56,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _add
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst todo = () => {\r\n    return `\r\n    <li>Buy milk</li>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (todo);\n\n//# sourceURL=webpack://todo-list/./src/todo.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst todo = () => {\r\n   return `\r\n   \r\n   `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (todo);\n\n//# sourceURL=webpack://todo-list/./src/todo.js?");
 
 /***/ }),
 
@@ -56,7 +66,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo */ \"./src/todo.js\");\n\r\n\r\nconst todoProject = () => {\r\n    return `\r\n    <div>\r\n    <ul>${(0,_todo__WEBPACK_IMPORTED_MODULE_0__.default)()}</ul>\r\n    </div>\r\n    `\r\n}\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (todoProject);\n\n//# sourceURL=webpack://todo-list/./src/todoProject.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"todoProjectListUl\": () => (/* binding */ todoProjectListUl),\n/* harmony export */   \"logTodos\": () => (/* binding */ logTodos)\n/* harmony export */ });\nlet todoListArr = [['Buy milk', true], ['Put gas in car', false]];\r\n\r\nlet todoProjectListUl = document.createElement('ul');\r\n\r\ntodoListArr.forEach((el, idx)=>{\r\n    let li = document.createElement('li');\r\n    li.innerText = el[0];\r\n    if(el[1]){\r\n        li.innerHTML += `<p data-index=${idx}>O</p>`\r\n    } else {\r\n        li.innerHTML += `<p data-index=${idx}>X</p>`\r\n    }\r\n    todoProjectListUl.appendChild(li);\r\n});\r\n\r\nfunction logTodos(){\r\n    console.log(todoProjectListUl);\r\n}\r\n\r\nconst todoProject = () => {\r\n    return todoProjectListUl\r\n}\r\n\r\n\n\n//# sourceURL=webpack://todo-list/./src/todoProject.js?");
 
 /***/ })
 

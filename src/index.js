@@ -2,10 +2,10 @@ const contentDiv = document.querySelector('#content');
 const addBtn = document.querySelector('.addBtn');
 const homeBtn = document.querySelector('.homeBtn');
 
-import addTodo from './addTodo';
+import addTodoHTML from './addTodoHTML';
 import homePage from './homePage';
 import todo from './todo';
-import todoProject from './todoProject';
+import {logTodos} from './todoProject';
 
 addBtn.addEventListener('click', addTodoForm);
 homeBtn.addEventListener('click', showHome);
@@ -15,9 +15,10 @@ function showHome(){
 }
 
 function addTodoForm(){
-    contentDiv.innerHTML = addTodo();
+    contentDiv.innerHTML = addTodoHTML();
 }
 
 window.onload = () => {
-    contentDiv.innerHTML = todoProject();
+    contentDiv.appendChild(homePage());
+    console.log(contentDiv);
 }

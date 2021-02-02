@@ -28,6 +28,28 @@ html, body {
     margin-top: 50px;
 }
 
+#add-todo-project-form {
+    text-align: center;
+    background-color: red;
+}
+
+li {
+    display: flex;
+}
+
+li p {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+li p:hover {
+    background-color: red;
+}
+
+li p:active{
+    background-color: rgb(255, 208, 0);
+}
+
 .footer {
     position: fixed;
     left: 0;

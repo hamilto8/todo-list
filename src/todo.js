@@ -1,7 +1,7 @@
 const todo = () => {
-    return `
-    <li>Buy milk</li>
-    `
+   return `
+   
+   `
 }
 
 export default todo
