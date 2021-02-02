@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: none;
+    box-sizing: border-box;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: rgb(130, 143, 255);
+}
+
+.navbar i {
+    padding-right: 20px;
+    transition: color .5s ease;
+}
+
+.navbar i:hover{
+    color:rgb(255, 208, 0)
+}
+
+#content {
+    margin-top: 50px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 2px;
+    text-align: center;
+    color: #fff;
+    background-color: rgb(130, 143, 255);
+}
