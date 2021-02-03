@@ -35,6 +35,7 @@ html, body {
 
 li {
     display: flex;
+    list-style-type: square;
 }
 
 li p {
@@ -42,11 +43,11 @@ li p {
     cursor: pointer;
 }
 
-li p:hover {
+li:hover {
     background-color: red;
 }
 
-li p:active{
+li:active{
     background-color: rgb(255, 208, 0);
 }
 
