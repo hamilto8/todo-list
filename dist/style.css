@@ -41,14 +41,35 @@ li {
 li p {
     margin-left: 10px;
     cursor: pointer;
-}
-
-li:hover {
-    background-color: red;
+    margin: 0; 
+    padding: none;
 }
 
 li:active{
-    background-color: rgb(255, 208, 0);
+    background-color: rgb(161, 161, 161);
+}
+
+.todo {
+    z-index: 1;
+}
+
+.todo i {
+    padding-right: 10px;
+}
+
+.todo-complete {
+    color: red;
+}
+
+.delete-todo {
+    padding-left: 10px;
+    color: red;
+    z-index: 1000;
+}
+
+.delete-todo:hover{
+    cursor: pointer;
+    color: rgb(255, 155, 155);
 }
 
 .footer {

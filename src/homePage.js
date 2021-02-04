@@ -2,6 +2,8 @@ import { hr } from 'date-fns/locale';
 import todo from './todo';
 import {logTodos, todoListArr} from './todoProject';
 
+let completeDOT = `<i class="fas fa-circle"></i>`;
+
 const homePage = () => {
     
 }
@@ -26,10 +28,24 @@ const showTodos = (e) => {
     if(!todoListArr[projectIdx].shown){
         todoListArr[projectIdx].shown = true;
         let todoListUl = document.createElement('ul');
+            todoListUl.classList.add('todo-project');
         todoListArr[projectIdx].todos.forEach((todo, idx)=>{
             let li = document.createElement('li');
+                li.classList.add('todo')
+                li.innerHTML = `<i class="far fa-circle"></i>`;
+
+            let deleteSpan = document.createElement('span');
+                deleteSpan.classList.add('delete-todo');
+                deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
+                deleteSpan.addEventListener('click', deleteTodo);
+
+                let todoText = document.createElement('p');
+                    todoText.innerText = `${todo[0]}`;
+                    todoText.addEventListener('click', markComplete);
+                
                 li.dataset.index = idx;
-                li.innerText = todo[0];
+                li.appendChild(todoText);
+                li.appendChild(deleteSpan);
                 todoListUl.appendChild(li);
         });
         e.target.parentElement.appendChild(todoListUl);
@@ -41,20 +57,31 @@ const showTodos = (e) => {
     }
 }
 
-const deleteTodo = (e) =>{
-
-}
-
 const markComplete = (e) => {
+    let parentLI = e.target.parentElement;
+    let parentLiIdx = parentLI.dataset.index;
+    let projectIdx = parentLI.parentElement.parentElement.dataset.index;
 
+    if(todoListArr[projectIdx].todos[parentLiIdx][1] === false){
+        todoListArr[projectIdx].todos[parentLiIdx][1] = true;
+        parentLI.classList.add('todo-complete');
+    } else {
+        todoListArr[projectIdx].todos[parentLiIdx][1] = false;
+        parentLI.classList.remove('todo-complete');
+    }
 }
+
+const deleteTodo = (e) =>{
+    console.log('Delete Todo Intiated')
+}
+
 
 const addNewTodo = () =>{
 
 }
 
 const addNewProject = () => {
-
+    console.log(`You clicked the button!`);
 }
 
-export {homePage, showTitles, showTodos}
+export {homePage, showTitles, showTodos, addNewProject}

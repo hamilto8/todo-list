@@ -21,7 +21,7 @@ function showHome(){
 }
 
 function addTodoForm(){
-    contentDiv.innerHTML = addTodoHTML();
+    contentDiv.appendChild(addTodoHTML());
 }
 
 window.onload = () => {
