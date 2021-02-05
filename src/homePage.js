@@ -13,12 +13,12 @@ const resetPageDisplay = () => {
 }
 
 const showTitles = () => {
-    let projectList = document.createElement('div');
+    const projectList = document.createElement('div');
     todoListArr.forEach((project, idx)=>{
-        let projectDiv = document.createElement('div');
+        const projectDiv = document.createElement('div');
             projectDiv.classList.add('project');
             projectDiv.dataset.index = idx;
-            let h5 = document.createElement('h5');
+            const h5 = document.createElement('h5');
                 h5.innerText = project.title;
                 h5.addEventListener('click', showTodos)
                 projectDiv.appendChild(h5);
@@ -28,22 +28,22 @@ const showTitles = () => {
 }
 
 const showTodos = (e) => {
-    let projectIdx = e.target.parentElement.dataset.index;
+    const projectIdx = e.target.parentElement.dataset.index;
     if(!todoListArr[projectIdx].shown){
         todoListArr[projectIdx].shown = true;
-        let todoListUl = document.createElement('ul');
+        const todoListUl = document.createElement('ul');
             todoListUl.classList.add('todo-project');
         todoListArr[projectIdx].todos.forEach((todo, idx)=>{
-            let li = document.createElement('li');
+            const li = document.createElement('li');
                 li.classList.add('todo')
                 li.innerHTML = `<i class="far fa-circle"></i>`;
 
-            let deleteSpan = document.createElement('span');
+            const deleteSpan = document.createElement('span');
                 deleteSpan.classList.add('delete-todo');
                 deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
                 deleteSpan.addEventListener('click', deleteTodo);
 
-                let todoText = document.createElement('p');
+                const todoText = document.createElement('p');
                     todoText.innerText = `${todo[0]}`;
                     todoText.addEventListener('click', markComplete);
                 
@@ -56,15 +56,15 @@ const showTodos = (e) => {
 
     } else {
         todoListArr[projectIdx].shown = false;
-        let oldChild = e.target.parentElement.querySelector('ul');
+        const oldChild = e.target.parentElement.querySelector('ul');
         oldChild.parentNode.removeChild(oldChild)
     }
 }
 
 const markComplete = (e) => {
-    let parentLI = e.target.parentElement;
-    let parentLiIdx = parentLI.dataset.index;
-    let projectIdx = parentLI.parentElement.parentElement.dataset.index;
+    const parentLI = e.target.parentElement;
+    const parentLiIdx = parentLI.dataset.index;
+    const projectIdx = parentLI.parentElement.parentElement.dataset.index;
 
     if(todoListArr[projectIdx].todos[parentLiIdx][1] === false){
         todoListArr[projectIdx].todos[parentLiIdx][1] = true;
@@ -76,12 +76,14 @@ const markComplete = (e) => {
 }
 
 const deleteTodo = (e) =>{
-    let parentLI = e.target.parentElement.parentElement;
-    let parentLiIdx = parentLI.dataset.index;
-    let projectIdx = parentLI.parentElement.parentElement.dataset.index;
+    const parentLI = e.target.parentElement.parentElement;
+    const parentLiIdx = parentLI.dataset.index;
+    const projectUl = parentLI.parentElement;
+    const projectIdx = parentLI.parentElement.parentElement.dataset.index;
 
-    // todoListArr[projectIdx].todos.splice(parentLiIdx, 1);
-    console.log('You clicked Delete Todo')
+    projectUl.removeChild(parentLI);
+    todoListArr[projectIdx].todos.splice(parentLiIdx, 1);
+    console.log(todoListArr[projectIdx].todos)
 }
 
 
