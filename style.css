@@ -45,10 +45,6 @@ li p {
     padding: none;
 }
 
-li:active{
-    background-color: rgb(161, 161, 161);
-}
-
 .todo {
     z-index: 1;
 }
@@ -57,8 +53,9 @@ li:active{
     padding-right: 10px;
 }
 
-.todo-complete {
-    color: red;
+.todo-complete p{
+    color:rgb(161, 161, 161);
+    text-decoration: line-through;
 }
 
 .delete-todo {
