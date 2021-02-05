@@ -8,6 +8,10 @@ const homePage = () => {
     
 }
 
+const resetPageDisplay = () => {
+
+}
+
 const showTitles = () => {
     let projectList = document.createElement('div');
     todoListArr.forEach((project, idx)=>{
@@ -65,14 +69,19 @@ const markComplete = (e) => {
     if(todoListArr[projectIdx].todos[parentLiIdx][1] === false){
         todoListArr[projectIdx].todos[parentLiIdx][1] = true;
         parentLI.classList.add('todo-complete');
-    } else {
+    } else if(todoListArr[projectIdx].todos[parentLiIdx][1] === true){
         todoListArr[projectIdx].todos[parentLiIdx][1] = false;
         parentLI.classList.remove('todo-complete');
     }
 }
 
 const deleteTodo = (e) =>{
-    console.log('Delete Todo Intiated')
+    let parentLI = e.target.parentElement.parentElement;
+    let parentLiIdx = parentLI.dataset.index;
+    let projectIdx = parentLI.parentElement.parentElement.dataset.index;
+
+    // todoListArr[projectIdx].todos.splice(parentLiIdx, 1);
+    console.log('You clicked Delete Todo')
 }
 
 
@@ -84,4 +93,4 @@ const addNewProject = () => {
     console.log(`You clicked the button!`);
 }
 
-export {homePage, showTitles, showTodos, addNewProject}
+export {homePage, showTitles, showTodos, addNewProject, resetPageDisplay}

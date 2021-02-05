@@ -3,7 +3,7 @@ const addBtn = document.querySelector('.addBtn');
 const homeBtn = document.querySelector('.homeBtn');
 
 import addTodoHTML from './addTodoHTML';
-import {homePage, showTitles, showTodos} from './homePage';
+import {homePage, showTitles, showTodos, resetPageDisplay} from './homePage';
 import todo from './todo';
 import {logTodos, todoListArr} from './todoProject';
 
