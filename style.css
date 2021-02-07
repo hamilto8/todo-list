@@ -33,9 +33,25 @@ html, body {
     background-color: red;
 }
 
+.project {
+    display: block;
+}
+
+.project-title{
+    display: flex;
+}
+
+.add-todo-btn {
+    margin-left: 10px;
+}
+
+.add-todo-btn:hover{
+    color: rgb(79, 255, 138);
+}
+
 li {
     display: flex;
-    list-style-type: square;
+    list-style-type: none;
 }
 
 li p {
