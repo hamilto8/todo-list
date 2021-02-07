@@ -8,36 +8,52 @@ const homePage = () => {
     
 }
 
-const resetPageDisplay = () => {
-
-}
-
 const showTitles = () => {
     const projectList = document.createElement('div');
+        projectList.classList.add('project-list');
     todoListArr.forEach((project, idx)=>{
         const projectDiv = document.createElement('div');
             projectDiv.classList.add('project');
             projectDiv.dataset.index = idx;
-            const h5 = document.createElement('h5');
-                h5.innerText = project.title;
-                h5.addEventListener('click', showTodos)
-                projectDiv.appendChild(h5);
+        const titleSpan = document.createElement('span');
+            titleSpan.classList.add('project-title');
+        const h5 = document.createElement('h5');
+            h5.innerText = project.title;
+            // h5.addEventListener('click', showTodos);
+        
+        titleSpan.appendChild(h5);
+        titleSpan.addEventListener('click', showTodos)
+
+        
+        projectDiv.appendChild(titleSpan);
         projectList.appendChild(projectDiv);
+        
+
     })
     return projectList;
 }
 
 const showTodos = (e) => {
-    const projectIdx = e.target.parentElement.dataset.index;
+    const projectIdx = e.target.parentElement.parentElement.dataset.index;
     if(!todoListArr[projectIdx].shown){
         todoListArr[projectIdx].shown = true;
+        const project = e.target.parentElement.parentElement.querySelector('.project-title');
+        
+        const addNewTodoBtn = document.createElement('div');
+        addNewTodoBtn.classList.add('add-todo-btn');
+        addNewTodoBtn.innerHTML = `<i class="fas fa-plus"></i>`;
+        addNewTodoBtn.addEventListener('click', addNewTodo);
+        project.appendChild(addNewTodoBtn);
+
         const todoListUl = document.createElement('ul');
             todoListUl.classList.add('todo-project');
         todoListArr[projectIdx].todos.forEach((todo, idx)=>{
             const li = document.createElement('li');
                 li.classList.add('todo')
+                if(todoListArr[projectIdx].todos[idx][1]){
+                    li.classList.add('todo-complete');
+                }
                 li.innerHTML = `<i class="far fa-circle"></i>`;
-
             const deleteSpan = document.createElement('span');
                 deleteSpan.classList.add('delete-todo');
                 deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
@@ -52,12 +68,15 @@ const showTodos = (e) => {
                 li.appendChild(deleteSpan);
                 todoListUl.appendChild(li);
         });
-        e.target.parentElement.appendChild(todoListUl);
+        e.target.parentElement.parentElement.appendChild(todoListUl);
 
     } else {
         todoListArr[projectIdx].shown = false;
-        const oldChild = e.target.parentElement.querySelector('ul');
-        oldChild.parentNode.removeChild(oldChild)
+        const project = e.target.parentElement.parentElement;
+        const oldChild = e.target.parentElement.parentElement.querySelector('ul');
+        const addBtn = e.target.parentElement.parentElement.querySelector('.add-todo-btn');
+        oldChild.parentNode.removeChild(oldChild);
+        addBtn.parentNode.removeChild(addBtn);
     }
 }
 
@@ -88,11 +107,38 @@ const deleteTodo = (e) =>{
 
 
 const addNewTodo = () =>{
-
+    console.log('You have indicated you wish to add a new Todo');
 }
 
 const addNewProject = () => {
-    console.log(`You clicked the button!`);
+    const projectListDiv = document.querySelector('.project-list');
+        projectListDiv.style.display = 'none';
+
+    const addNewProjectDiv = document.createElement('div');
+        addNewProjectDiv.classList.add('add-new-project');
+
+    const projectP = document.createElement('p');
+            projectP.innerText = 'You are Adding a New Project!';
+
+    const confirmAddBtn = document.createElement('button');
+        confirmAddBtn.innerText = 'Confirm!'
+        confirmAddBtn.addEventListener('click', confirmAdd);
+
+        addNewProjectDiv.appendChild(projectP)
+        addNewProjectDiv.appendChild(confirmAddBtn);
+
+        return addNewProjectDiv
 }
 
-export {homePage, showTitles, showTodos, addNewProject, resetPageDisplay}
+const confirmAdd = ()=>{
+    const contentDiv = document.querySelector('#content')
+    const addNewProjectDiv = document.querySelector('.add-new-project');
+    contentDiv.removeChild(addNewProjectDiv);
+    
+    const projectListDiv = document.querySelector('.project-list');
+    projectListDiv.style.display = 'block';
+    
+    console.log('confirmed!');
+}
+
+export {homePage, showTitles, showTodos, addNewProject}

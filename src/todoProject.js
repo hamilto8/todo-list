@@ -12,17 +12,8 @@ let todoListArr = [
 
 let todoProjectListUl = document.createElement('ul');
 
-todoListArr.forEach((el, idx)=>{
-    // TBD
-    
-});
-
-function logTodos(){
-    
-}
-
 const todoProject = () => {
     
 }
 
-export {todoProjectListUl, logTodos, todoListArr}
+export {todoProjectListUl, todoListArr}
