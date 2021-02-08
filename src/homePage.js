@@ -106,8 +106,37 @@ const deleteTodo = (e) =>{
 }
 
 
-const addNewTodo = () =>{
-    console.log('You have indicated you wish to add a new Todo');
+const addNewTodo = (e) =>{
+    const project = e.target.parentElement.parentElement.parentElement;
+    const projectUl = project.querySelector('ul');
+    const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
+
+    const newThingTodo = ['Eat some stew', false];
+
+    todoListArr[projectIdx].todos.push(newThingTodo);
+
+    const newLi = document.createElement('li');
+        newLi.classList.add('todo');
+        newLi.innerHTML = `<i class="far fa-circle"></i>`;
+
+    const deleteSpan = document.createElement('span');
+            deleteSpan.classList.add('delete-todo');
+            deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
+            deleteSpan.addEventListener('click', deleteTodo);
+
+    const todoText = document.createElement('p');
+            todoText.innerText = `${newThingTodo[0]}`;
+            todoText.addEventListener('click', markComplete);
+        
+        newLi.dataset.index = todoListArr[projectIdx].todos.length - 1;
+        newLi.appendChild(todoText);
+        newLi.appendChild(deleteSpan);
+
+        projectUl.appendChild(newLi);
+}
+
+const showAddTodoForm = () => {
+    
 }
 
 const addNewProject = () => {
