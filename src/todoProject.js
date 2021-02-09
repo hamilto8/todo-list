@@ -6,14 +6,23 @@ let todoListArr = [
     }, 
     {
         title: "My Second Project",
+        shown: false,
         todos: [['Eat at Wendy\'s', false], ['Ride into the sunset', false]]
     }
 ];
 
-let todoProjectListUl = document.createElement('ul');
-
-const todoProject = () => {
-    
+class todoProject {
+    constructor(title, shown = false, todos = []){
+        this.title = title;
+        this.shown = shown;
+        this.todos = todos;
+    }
 }
 
-export {todoProjectListUl, todoListArr}
+let todoProjectListUl = document.createElement('ul');
+
+// const todoProject = () => {
+    
+// }
+
+export {todoProjectListUl, todoListArr, todoProject}

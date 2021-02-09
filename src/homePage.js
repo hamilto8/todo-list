@@ -1,6 +1,6 @@
 import { hr } from 'date-fns/locale';
 import todo from './todo';
-import {logTodos, todoListArr} from './todoProject';
+import {logTodos, todoListArr, todoProject} from './todoProject';
 
 let completeDOT = `<i class="fas fa-circle"></i>`;
 
@@ -117,7 +117,14 @@ const addNewTodo = (e) =>{
     const projectUl = project.querySelector('ul');
     const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
 
-    const newThingTodo = ['Eat some stew', false];
+    let getTodo = window.prompt('What do you want to do?');
+    if(getTodo.length === 0){
+        while(getTodo.length === 0) {
+            getTodo = window.prompt('What do you want to do?');
+        }
+    }
+    
+    const newThingTodo = [getTodo, false];
 
     todoListArr[projectIdx].todos.push(newThingTodo);
 
@@ -147,7 +154,10 @@ const showAddTodoForm = () => {
 
 const addNewProject = () => {
     const projectListDiv = document.querySelector('.project-list');
-        projectListDiv.style.display = 'none';
+        // projectListDiv.style.display = 'none';
+    const contentDiv = document.querySelector('#content');
+    
+    contentDiv.removeChild(projectListDiv);
 
     const addNewProjectDiv = document.createElement('div');
         addNewProjectDiv.classList.add('add-new-project');
@@ -155,25 +165,37 @@ const addNewProject = () => {
     const projectP = document.createElement('p');
             projectP.innerText = 'You are Adding a New Project!';
 
+    let inputProject = document.createElement('input');
+        inputProject.type = 'text';
+        inputProject.classList.add('new-project-title');
+
     const confirmAddBtn = document.createElement('button');
         confirmAddBtn.innerText = 'Confirm!'
         confirmAddBtn.addEventListener('click', confirmAdd);
 
         addNewProjectDiv.appendChild(projectP)
+        addNewProjectDiv.appendChild(inputProject);
         addNewProjectDiv.appendChild(confirmAddBtn);
 
         return addNewProjectDiv
 }
 
-const confirmAdd = ()=>{
+const confirmAdd = (e)=>{
+    const newProjTitle = e.target.parentElement.querySelector('.new-project-title').value;
+
+    const newProj = new todoProject(newProjTitle, false, []);
+    todoListArr.push(newProj);
+    console.log(todoListArr);
+
     const contentDiv = document.querySelector('#content')
     const addNewProjectDiv = document.querySelector('.add-new-project');
     contentDiv.removeChild(addNewProjectDiv);
     
     const projectListDiv = document.querySelector('.project-list');
-    projectListDiv.style.display = 'block';
+    // projectListDiv.style.display = 'block';
+
+    contentDiv.appendChild(showTitles());
     
-    console.log('confirmed!');
 }
 
 export {homePage, showTitles, showTodos, addNewProject}
