@@ -98,11 +98,17 @@ const deleteTodo = (e) =>{
     const parentLI = e.target.parentElement.parentElement;
     const parentLiIdx = parentLI.dataset.index;
     const projectUl = parentLI.parentElement;
+    const mainProject = parentLI.parentElement.parentElement;
+    const project = parentLI.parentElement.parentElement.querySelector('.todo-project');
+    const projectTitle = parentLI.parentElement.parentElement.querySelector('.project-title');
+    const addBtn = parentLI.parentElement.parentElement.querySelector('.add-todo-btn');
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
-
-    projectUl.removeChild(parentLI);
+    
+    
     todoListArr[projectIdx].todos.splice(parentLiIdx, 1);
-    console.log(todoListArr[projectIdx].todos)
+    todoListArr[projectIdx].shown = false;
+    projectTitle.removeChild(addBtn);
+    mainProject.removeChild(project);
 }
 
 
