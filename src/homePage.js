@@ -154,7 +154,6 @@ const showAddTodoForm = () => {
 
 const addNewProject = () => {
     const projectListDiv = document.querySelector('.project-list');
-        // projectListDiv.style.display = 'none';
     const contentDiv = document.querySelector('#content');
     
     contentDiv.removeChild(projectListDiv);
@@ -168,6 +167,14 @@ const addNewProject = () => {
     let inputProject = document.createElement('input');
         inputProject.type = 'text';
         inputProject.classList.add('new-project-title');
+        inputProject.addEventListener('keydown', e => {
+            if(e.key === 'Enter'){
+                if(e.target.value !== ''){
+                    confirmAdd(e);
+                }
+            }
+        });
+
 
     const confirmAddBtn = document.createElement('button');
         confirmAddBtn.innerText = 'Confirm!'
@@ -182,17 +189,15 @@ const addNewProject = () => {
 
 const confirmAdd = (e)=>{
     const newProjTitle = e.target.parentElement.querySelector('.new-project-title').value;
-
-    const newProj = new todoProject(newProjTitle, false, []);
-    todoListArr.push(newProj);
-    console.log(todoListArr);
-
     const contentDiv = document.querySelector('#content')
     const addNewProjectDiv = document.querySelector('.add-new-project');
+
+    if(newProjTitle.length > 0){
+        const newProj = new todoProject(newProjTitle, false, []);
+        todoListArr.push(newProj);
+        console.log(todoListArr);
+    }
     contentDiv.removeChild(addNewProjectDiv);
-    
-    const projectListDiv = document.querySelector('.project-list');
-    // projectListDiv.style.display = 'block';
 
     contentDiv.appendChild(showTitles());
     

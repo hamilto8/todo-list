@@ -1,28 +1,25 @@
-let todoListArr = [
-    {
-    title: "My First Project", 
-    shown: false,
-    todos: [['Buy milk', false], ['Put gas in car', false]]
-    }, 
-    {
-        title: "My Second Project",
-        shown: false,
-        todos: [['Eat at Wendy\'s', false], ['Ride into the sunset', false]]
-    }
-];
+let todoListArr = [];
 
 class todoProject {
-    constructor(title, shown = false, todos = []){
+    constructor(title = 'Untitled Project', shown = false, todos = []){
         this.title = title;
         this.shown = shown;
         this.todos = todos;
     }
 }
 
-let todoProjectListUl = document.createElement('ul');
+const firstProject = new todoProject('My First Project', 
+    false, [
+    ['Buy milk', false], 
+    ['Put gas in car', false]]);
+const secondProject = new todoProject('My Second Project', 
+    false, [
+    ['Eat at Wendy\'s', false], 
+    ['Ride into the sunset', false]]);
 
-// const todoProject = () => {
-    
-// }
+todoListArr.push(firstProject);
+todoListArr.push(secondProject);
+
+let todoProjectListUl = document.createElement('ul');
 
 export {todoProjectListUl, todoListArr, todoProject}
