@@ -85,6 +85,10 @@ li p {
     color: rgb(255, 155, 155);
 }
 
+.remove-project-title:hover{
+    color: red;
+}
+
 .footer {
     position: fixed;
     left: 0;
