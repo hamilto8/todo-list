@@ -226,7 +226,13 @@ const deleteProject = (e) => {
 }
 
 const confirmRemoveProject = (e) =>{
-    console.log(e.target)
+    const contentDiv = e.target.parentElement.parentElement;
+    const removeProjectPage = contentDiv.querySelector('.remove-project-page');
+    const projectIdx = e.target.dataset.index;
+    todoListArr.splice(projectIdx, 1);
+    contentDiv.removeChild(removeProjectPage);
+    contentDiv.appendChild(showTitles());
+
 }
 
 export {homePage, showTitles, showTodos, addNewProject, deleteProject}
