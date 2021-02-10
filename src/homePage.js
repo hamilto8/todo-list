@@ -203,4 +203,30 @@ const confirmAdd = (e)=>{
     
 }
 
-export {homePage, showTitles, showTodos, addNewProject}
+const deleteProject = (e) => {
+    const contentDiv = e.target.parentElement.parentElement.querySelector('#content');
+    const projectListDiv = contentDiv.querySelector('.project-list');
+    contentDiv.removeChild(projectListDiv);
+    
+    const removeProjectPage = document.createElement('div');
+        removeProjectPage.classList.add('remove-project-page');
+        removeProjectPage.innerHTML = `<p>Choose a Project to Remove</p>`;
+    
+    todoListArr.forEach((project, idx) => {
+        const title = project.title;
+        const titleDiv = document.createElement('div');
+            titleDiv.classList.add('remove-project-title')
+            titleDiv.innerText = `${title}`;
+            titleDiv.dataset.index = idx;
+            titleDiv.addEventListener('click', confirmRemoveProject);
+        removeProjectPage.appendChild(titleDiv);
+    });
+
+    contentDiv.appendChild(removeProjectPage);
+}
+
+const confirmRemoveProject = (e) =>{
+    console.log(e.target)
+}
+
+export {homePage, showTitles, showTodos, addNewProject, deleteProject}
