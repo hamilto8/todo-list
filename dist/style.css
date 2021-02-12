@@ -33,6 +33,24 @@ html, body {
     background-color: red;
 }
 
+.add-new-project {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-new-project input{
+    display: block;
+}
+
+.remove-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+}
+
 .project {
     display: block;
 }
@@ -85,7 +103,21 @@ li p {
     color: rgb(255, 155, 155);
 }
 
-.remove-project-title:hover{
+.remove-project-page {
+    text-align: center;
+    font-weight: bold;
+}
+
+.title-div {
+    display: flex;
+}
+
+.title-div p {
+    margin-left: 10px;
+}
+
+.title-div p:hover {
+    cursor: pointer;
     color: red;
 }
 

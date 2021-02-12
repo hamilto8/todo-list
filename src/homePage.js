@@ -167,6 +167,7 @@ const addNewProject = () => {
     let inputProject = document.createElement('input');
         inputProject.type = 'text';
         inputProject.classList.add('new-project-title');
+        inputProject.placeholder = 'Enter your project name here';
         inputProject.addEventListener('keydown', e => {
             if(e.key === 'Enter'){
                 if(e.target.value !== ''){
@@ -212,27 +213,57 @@ const deleteProject = (e) => {
         removeProjectPage.classList.add('remove-project-page');
         removeProjectPage.innerHTML = `<p>Choose a Project to Remove</p>`;
     
+    const goBackButton = document.createElement('button');
+        goBackButton.classList.add('go-back-button');
+        goBackButton.innerText = "Go Back";
+        goBackButton.addEventListener('click', returnToHome);
+
     todoListArr.forEach((project, idx) => {
         const title = project.title;
         const titleDiv = document.createElement('div');
             titleDiv.classList.add('remove-project-title')
-            titleDiv.innerText = `${title}`;
+            titleDiv.innerHTML = `
+                <div class="title-div">  
+                    <i class="fas fa-circle"></i>
+                    <p>${title}</p>
+                </div>
+            `;
             titleDiv.dataset.index = idx;
             titleDiv.addEventListener('click', confirmRemoveProject);
         removeProjectPage.appendChild(titleDiv);
     });
 
     contentDiv.appendChild(removeProjectPage);
+    contentDiv.appendChild(goBackButton);
+}
+
+const returnToHome = (e) => {
+    const contentDiv = e.target.parentElement;
+    const goBackBtn = e.target;
+    contentDiv.removeChild(goBackBtn);
+    console.log("going back home");
 }
 
 const confirmRemoveProject = (e) =>{
-    const contentDiv = e.target.parentElement.parentElement;
+    const contentDiv = e.target.parentElement.parentElement.parentElement.parentElement;
     const removeProjectPage = contentDiv.querySelector('.remove-project-page');
-    const projectIdx = e.target.dataset.index;
-    todoListArr.splice(projectIdx, 1);
-    contentDiv.removeChild(removeProjectPage);
-    contentDiv.appendChild(showTitles());
+    const goBackBtn = contentDiv.querySelector('.go-back-button');
+    const projectIdx = e.target.parentElement.parentElement.dataset.index;
+    const projectTitle = todoListArr[projectIdx].title;
 
+    todoListArr.splice(projectIdx, 1);
+
+    contentDiv.removeChild(removeProjectPage);
+    contentDiv.removeChild(goBackBtn);
+    const removeP = document.createElement('p');
+        removeP.innerText = `Project "${projectTitle}" Removed!`;
+        removeP.classList.add('remove-message');
+
+        contentDiv.appendChild(removeP);
+        contentDiv.appendChild(showTitles());
+        setTimeout(() => {
+            contentDiv.removeChild(removeP);
+        }, 1000);
 }
 
 export {homePage, showTitles, showTodos, addNewProject, deleteProject}
