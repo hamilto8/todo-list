@@ -121,6 +121,26 @@ li p {
     color: red;
 }
 
+.get-todo-form {
+    display: grid;
+    text-align: center;
+    align-items: center;
+}
+
+.todo-priority > * {
+    padding: 0;
+    margin: 0;
+}
+
+.todo-priority div{
+    display: flex;
+    justify-content: center;
+}
+
+.todo-priority div input {
+    margin-left: 10px;
+}
+
 .footer {
     position: fixed;
     left: 0;
