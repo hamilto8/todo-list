@@ -1,6 +1,7 @@
 import todo from './todo';
+import todoListArr from './todoProjectList';
 
-let todoListArr = [];
+// let todoListArr = [];
 
 class todoProject {
     constructor(title = 'Untitled Project', shown = false, todos = []){
@@ -9,24 +10,6 @@ class todoProject {
         this.todos = todos;
     }
 }
-
-// class todo {
-//     constructor(description, completedStatus, dueDate, priority){
-//         this.description = description;
-//         this.completedStatus = completedStatus;
-//         this.dueDate = dueDate;
-//         this.priority = priority;
-//     }
-// }
-
-// const firstProject = new todoProject('My First Project', 
-//     false, [
-//     ['Buy milk', false, '10/22/2022','low'], 
-//     ['Put gas in car', false, '03/21/2023','low']]);
-// const secondProject = new todoProject('My Second Project', 
-//     false, [
-//     ['Eat at Wendy\'s', false, '12/30/2021','high'], 
-//     ['Ride into the sunset', false, '09/10/2011','low']]);
 
 const firstProject = new todoProject('My First Project', false);
 const secondProject = new todoProject('My Second Project', false);

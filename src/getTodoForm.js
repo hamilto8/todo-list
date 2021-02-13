@@ -1,6 +1,10 @@
+import {addTodoToProject} from './addTodoLogic';
+
 const getTodoForm = () =>{
-    const todoForm = `
-    <div class="get-todo-form">
+    const todoForm = document.createElement('div');
+        todoForm.classList.add('get-todo-form');
+
+    const todoFormHTML = `
         <input class="todo-description" placeholder="Todo Description" type="text"/>
         <input class="due-date" type="date"/>
         <div class="todo-priority">
@@ -14,10 +18,17 @@ const getTodoForm = () =>{
             <label for="high">High</label>
             </div>
         </div>
-        <button class="confirm-todo">Confirm</button>
-    </div>
-    `;
+        `;
+
+        todoForm.innerHTML = todoFormHTML;
+        const confirmBTN = document.createElement('button');
+            confirmBTN.classList.add('confirm-todo');
+            confirmBTN.innerText = 'Confirm';
+            confirmBTN.addEventListener('click', addTodoToProject);
+        
+        todoForm.appendChild(confirmBTN);
+
     return todoForm;
 }
 
-export default getTodoForm
+export {getTodoForm}

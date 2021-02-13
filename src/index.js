@@ -5,6 +5,7 @@ const deleteBtn = document.querySelector('.delete-btn');
 
 // import addNewProject from './addTodoHTML';
 import {homePage, showTitles, showTodos, addNewProject, deleteProject} from './homePage';
+import {addTodoToProject} from './addTodoLogic';
 
 addBtn.addEventListener('click', addTodoForm);
 homeBtn.addEventListener('click', showHome);
