@@ -23,13 +23,10 @@ const showTitles = () => {
         
         titleSpan.appendChild(h5);
         titleSpan.addEventListener('click', showTodos)
-
         
         projectDiv.appendChild(titleSpan);
         projectList.appendChild(projectDiv);
-        
-
-    })
+    });
     return projectList;
 }
 
@@ -124,7 +121,7 @@ const addNewTodo = (e) =>{
     const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
 
     
-    contentDiv.appendChild(getTodoForm());
+    project.appendChild(getTodoForm());
 }
 
 const addTodoToProject = () => {
@@ -247,4 +244,4 @@ const confirmRemoveProject = (e) =>{
         }, 1000);
 }
 
-export {homePage, showTitles, showTodos, addNewProject, deleteProject}
+export {homePage, showTitles, showTodos, addNewProject, deleteProject, deleteTodo, markComplete}
