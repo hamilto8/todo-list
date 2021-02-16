@@ -25,6 +25,7 @@ const addTodoToProject = (e) => {
     const newTodo = new todo(todoDescription, false, todoDueDate, todoPriority);
     
     todoListArr[projectIdx].todos.push(newTodo);
+    console.log(todoListArr[projectIdx].todos);
     const newLiHTML = addTodoToHTML(projectIdx);
     contentDiv.appendChild(newLiHTML);
     return newTodo;
