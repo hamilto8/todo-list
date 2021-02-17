@@ -13,7 +13,8 @@ deleteBtn.addEventListener('click', deleteProject)
 
 
 function showHome(){
-    contentDiv.appendChild(homePage());
+    contentDiv.innerHTML = '';
+    contentDiv.appendChild(showTitles());
 }
 
 function addTodoForm(){
