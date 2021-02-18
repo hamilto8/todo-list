@@ -98,6 +98,15 @@ li p {
     z-index: 1000;
 }
 
+.edit-todo{
+    color: rgb(82, 82, 82);
+}
+
+.edit-todo:hover{
+    cursor: pointer;
+    color:rgb(128, 128, 128);
+}
+
 .delete-todo:hover{
     cursor: pointer;
     color: rgb(255, 155, 155);
