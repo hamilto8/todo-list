@@ -55,6 +55,11 @@ const showTodos = (e) => {
                 deleteSpan.classList.add('delete-todo');
                 deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
                 deleteSpan.addEventListener('click', deleteTodo);
+            
+            const editTodoSpan = document.createElement('span');
+                editTodoSpan.classList.add('edit-todo');
+                editTodoSpan.innerHTML = `<i class="fas fa-edit"></i>`;
+                editTodoSpan.addEventListener('click', editTodo);
                 
                 const todoTitle = todo.description;
                 const dueDate = todo.dueDate;
@@ -68,6 +73,7 @@ const showTodos = (e) => {
                 li.dataset.index = idx;
                 li.appendChild(todoText);
                 li.appendChild(deleteSpan);
+                li.appendChild(editTodoSpan);
                 todoListUl.appendChild(li);
         });
         e.target.parentElement.parentElement.appendChild(todoListUl);
@@ -111,6 +117,10 @@ const deleteTodo = (e) =>{
     todoListArr[projectIdx].shown = false;
     projectTitle.removeChild(addBtn);
     mainProject.removeChild(project);
+}
+
+const editTodo = (e) =>{
+    console.log('editing the todo...');
 }
 
 
