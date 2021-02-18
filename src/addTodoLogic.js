@@ -1,6 +1,7 @@
 import todo from './todo';
 import todoListArr from './todoProjectList';
 import {addTodoToHTML} from './addTodoHTML';
+import {showTitles} from './homePage';
 
 function createTodoProject(projectName){
     return `
@@ -11,6 +12,7 @@ function createTodoProject(projectName){
 const addTodoToProject = (e) => {
     const getTodoForm = e.target.parentElement;
     const contentDiv = getTodoForm.parentElement;
+    const consentVid = document.querySelector('#content');
     const projectIdx = contentDiv.dataset.index;
     const todoPriorityInput = getTodoForm.querySelector('.todo-priority').querySelector('div').querySelectorAll('input[name="todo-priority"]');
     const todoDescription = getTodoForm.querySelector('.todo-description').value;
@@ -25,9 +27,13 @@ const addTodoToProject = (e) => {
     const newTodo = new todo(todoDescription, false, todoDueDate, todoPriority);
     
     todoListArr[projectIdx].todos.push(newTodo);
-    console.log(todoListArr[projectIdx].todos);
-    const newLiHTML = addTodoToHTML(projectIdx);
-    contentDiv.appendChild(newLiHTML);
+    // console.log(consentVid);
+    // contentDiv.innerHTML = '';
+    // contentDiv.appendChild(showTitles());
+    // const newLiHTML = addTodoToHTML(projectIdx);
+    // contentDiv.appendChild(newLiHTML);
+    consentVid.innerHTML = '';
+    consentVid.appendChild(showTitles());
     return newTodo;
 }
 

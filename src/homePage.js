@@ -120,7 +120,7 @@ const addNewTodo = (e) =>{
     const projectUl = project.querySelector('ul');
     const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
 
-    
+    // console.log('adding...')
     project.appendChild(getTodoForm());
 }
 
