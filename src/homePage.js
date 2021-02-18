@@ -2,6 +2,7 @@ import { hr } from 'date-fns/locale';
 import todo from './todo';
 import {getTodoForm} from './getTodoForm';
 import {logTodos, todoListArr, todoProject} from './todoProject';
+import {editTodoForm} from './editTodo';
 
 let completeDOT = `<i class="fas fa-circle"></i>`;
 
@@ -59,7 +60,7 @@ const showTodos = (e) => {
             const editTodoSpan = document.createElement('span');
                 editTodoSpan.classList.add('edit-todo');
                 editTodoSpan.innerHTML = `<i class="fas fa-edit"></i>`;
-                editTodoSpan.addEventListener('click', editTodo);
+                editTodoSpan.addEventListener('click', editTodoForm);
                 
                 const todoTitle = todo.description;
                 const dueDate = todo.dueDate;
