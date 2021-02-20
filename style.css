@@ -21,7 +21,8 @@ html, body {
 }
 
 .navbar i:hover{
-    color:rgb(255, 208, 0)
+    color:rgb(255, 208, 0);
+    cursor: pointer;
 }
 
 #content {
@@ -148,6 +149,13 @@ li p {
 
 .todo-priority div input {
     margin-left: 10px;
+}
+
+.confirm-message {
+    font-weight: bold;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: green;
 }
 
 .footer {
