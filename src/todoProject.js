@@ -14,7 +14,7 @@ class todoProject {
 const firstProject = new todoProject('My First Project', false);
 const secondProject = new todoProject('My Second Project', false);
 
-const firstTodo = new todo('Buy Milk', false, '10/21/2022', 'low');
+const firstTodo = new todo('Buy Milk', false, '2021-02-11', 'low');
 
 firstProject.todos.push(firstTodo);
 
