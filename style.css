@@ -147,6 +147,18 @@ li p {
     justify-content: center;
 }
 
+.edit-todo-form {
+    display: grid;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-priority-form > * {
+    display: flex;
+    justify-content: center;
+}
+
 .todo-priority div input {
     margin-left: 10px;
 }
