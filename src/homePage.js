@@ -67,7 +67,7 @@ const showTodos = (e) => {
                 const todoPriority = todo.priority;
 
                 const todoText = document.createElement('p');
-                    todoText.innerHTML = `<strong>Todo:</strong> ${todoTitle} -- <strong>Due:</strong> ${dueDate} -- <strong>Priority:</strong> ${todoPriority}`;
+                    todoText.innerHTML = `<strong>Todo:</strong> ${todoTitle} -- <strong>Due:</strong> ${dueDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
                     todoText.addEventListener('click', markComplete);
 
                 
