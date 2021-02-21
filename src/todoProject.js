@@ -16,13 +16,11 @@ const secondProject = new todoProject('My Second Project', false);
 
 const firstTodo = new todo('Buy Milk', false, '2021-02-11', 'low');
 
-firstProject.todos.push(firstTodo);
+firstProject.todos.push(JSON.stringify(firstTodo));
 
-console.log(firstProject);
-
-todoListArr.push(firstProject);
-todoListArr.push(secondProject);
-
+let arr = JSON.parse(localStorage.getItem('todos'));
+arr.push(firstProject);
+localStorage.setItem('todos', JSON.stringify(arr));
 let todoProjectListUl = document.createElement('ul');
 
 export {todoProjectListUl, todoListArr, todoProject}

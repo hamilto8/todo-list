@@ -27,6 +27,8 @@ html, body {
 
 #content {
     margin-top: 50px;
+    display: grid;
+    justify-content: center;
 }
 
 #add-todo-project-form {
@@ -135,6 +137,7 @@ li p {
     display: grid;
     text-align: center;
     align-items: center;
+    justify-content: center;
 }
 
 .todo-priority > * {
