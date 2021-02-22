@@ -18,9 +18,9 @@ const firstTodo = new todo('Buy Milk', false, '2021-02-11', 'low');
 
 firstProject.todos.push(JSON.stringify(firstTodo));
 
-let arr = JSON.parse(localStorage.getItem('todos'));
-arr.push(firstProject);
-localStorage.setItem('todos', JSON.stringify(arr));
+let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+localStorageArr.push(firstProject);
+localStorage.setItem('todos', JSON.stringify(localStorageArr));
 let todoProjectListUl = document.createElement('ul');
 
 export {todoProjectListUl, todoListArr, todoProject}

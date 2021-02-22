@@ -6,14 +6,17 @@ import {editTodoForm} from './editTodo';
 
 let completeDOT = `<i class="fas fa-circle"></i>`;
 
+// let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+
 const homePage = () => {
     
 }
 
 const showTitles = () => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const projectList = document.createElement('div');
         projectList.classList.add('project-list');
-    todoListArr.forEach((project, idx)=>{
+    localStorageArr.forEach((project, idx)=>{
         const projectDiv = document.createElement('div');
             projectDiv.classList.add('project');
             projectDiv.dataset.index = idx;
@@ -32,9 +35,10 @@ const showTitles = () => {
 }
 
 const showTodos = (e) => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const projectIdx = e.target.parentElement.parentElement.dataset.index;
-    if(!todoListArr[projectIdx].shown){
-        todoListArr[projectIdx].shown = true;
+    if(!localStorageArr[projectIdx].shown){
+        localStorageArr[projectIdx].shown = true;
         const project = e.target.parentElement.parentElement.querySelector('.project-title');
         
         const addNewTodoBtn = document.createElement('div');
@@ -45,10 +49,10 @@ const showTodos = (e) => {
 
         const todoListUl = document.createElement('ul');
             todoListUl.classList.add('todo-project');
-        todoListArr[projectIdx].todos.forEach((todo, idx)=>{
+        localStorageArr[projectIdx].todos.forEach((todo, idx)=>{
             const li = document.createElement('li');
                 li.classList.add('todo')
-                if(todoListArr[projectIdx].todos[idx].completedStatus){
+                if(JSON.parse(localStorageArr[projectIdx].todos[idx]).completedStatus){
                     li.classList.add('todo-complete');
                 }
                 li.innerHTML = `<i class="far fa-circle"></i>`;
@@ -62,9 +66,9 @@ const showTodos = (e) => {
                 editTodoSpan.innerHTML = `<i class="fas fa-edit"></i>`;
                 editTodoSpan.addEventListener('click', editTodoForm);
                 
-                const todoTitle = todo.description;
-                const dueDate = todo.dueDate;
-                const todoPriority = todo.priority;
+                const todoTitle = JSON.parse(todo).description;
+                const dueDate = JSON.parse(todo).dueDate;
+                const todoPriority = JSON.parse(todo).priority;
 
                 const todoText = document.createElement('p');
                     todoText.innerHTML = `<strong>Todo:</strong> ${todoTitle} -- <strong>Due:</strong> ${dueDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
@@ -77,15 +81,18 @@ const showTodos = (e) => {
                 li.appendChild(editTodoSpan);
                 todoListUl.appendChild(li);
         });
+        localStorage.setItem('todos', JSON.stringify(localStorageArr));
         e.target.parentElement.parentElement.appendChild(todoListUl);
 
     } else {
-        todoListArr[projectIdx].shown = false;
+        let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+        localStorageArr[projectIdx].shown = false;
         const project = e.target.parentElement.parentElement;
         const oldChild = e.target.parentElement.parentElement.querySelector('ul');
         const addBtn = e.target.parentElement.parentElement.querySelector('.add-todo-btn');
         oldChild.parentNode.removeChild(oldChild);
         addBtn.parentNode.removeChild(addBtn);
+        localStorage.setItem('todos', JSON.stringify(localStorageArr));
     }
 }
 
@@ -94,11 +101,15 @@ const markComplete = (e) => {
     const parentLiIdx = parentLI.dataset.index;
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
 
-    if(todoListArr[projectIdx].todos[parentLiIdx].completedStatus === false){
-        todoListArr[projectIdx].todos[parentLiIdx].completedStatus = true;
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+
+    if(JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus === false){
+        JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus = true;
+        localStorage.setItem('todos', JSON.stringify(localStorageArr));
         parentLI.classList.add('todo-complete');
-    } else if(todoListArr[projectIdx].todos[parentLiIdx].completedStatus === true){
-        todoListArr[projectIdx].todos[parentLiIdx].completedStatus = false;
+    } else if(JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus === true){
+        JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus = false;
+        localStorage.setItem('todos', JSON.stringify(localStorageArr));
         parentLI.classList.remove('todo-complete');
     }
 }
@@ -113,9 +124,10 @@ const deleteTodo = (e) =>{
     const addBtn = parentLI.parentElement.parentElement.querySelector('.add-todo-btn');
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
     
-    
-    todoListArr[projectIdx].todos.splice(parentLiIdx, 1);
-    todoListArr[projectIdx].shown = false;
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+    JSON.parse(localStorageArr[projectIdx].todos).splice(parentLiIdx, 1);
+    localStorageArr[projectIdx].shown = false;
+    localStorage.setItem('todos', JSON.stringify(localStorageArr));
     projectTitle.removeChild(addBtn);
     mainProject.removeChild(project);
 }
@@ -182,7 +194,9 @@ const confirmAdd = (e)=>{
 
     if(newProjTitle.length > 0){
         const newProj = new todoProject(newProjTitle, false, []);
-        todoListArr.push(newProj);
+        let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+        localStorageArr.push(newProj);
+        localStorage.setItem('todos', JSON.stringify(localStorageArr));
         console.log(todoListArr);
     }
     contentDiv.removeChild(addNewProjectDiv);
@@ -204,8 +218,10 @@ const deleteProject = (e) => {
         goBackButton.classList.add('go-back-button');
         goBackButton.innerText = "Go Back";
         goBackButton.addEventListener('click', returnToHome);
+    
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
 
-    todoListArr.forEach((project, idx) => {
+    localStorageArr.forEach((project, idx) => {
         const title = project.title;
         const titleDiv = document.createElement('div');
             titleDiv.classList.add('remove-project-title')
@@ -240,7 +256,10 @@ const confirmRemoveProject = (e) =>{
     const projectIdx = e.target.parentElement.parentElement.dataset.index;
     const projectTitle = todoListArr[projectIdx].title;
 
-    todoListArr.splice(projectIdx, 1);
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+
+    localStorageArr.splice(projectIdx, 1);
+    localStorage.setItem('todos', JSON.stringify(localStorageArr));
 
     contentDiv.removeChild(removeProjectPage);
     contentDiv.removeChild(goBackBtn);

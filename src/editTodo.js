@@ -1,4 +1,4 @@
-import todoListArr from './todoProjectList';
+// import todoListArr from './todoProjectList';
 import {showTitles} from './homePage';
 
 const editTodoForm = (e) => {
@@ -70,6 +70,7 @@ const editTodoForm = (e) => {
 }
 
 const confirmEdits = () => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const contentDiv = document.querySelector('#content');
     const editForm = document.querySelector('.edit-todo-form');
     const newDescription = editForm.querySelector('.edit-description').value;
@@ -96,9 +97,10 @@ const confirmEdits = () => {
 
     console.log('confirming edits...');
     
-    todoListArr[projectIdx].todos[todoIdx].description = newDescription;
-    todoListArr[projectIdx].todos[todoIdx].dueDate = newDate;
-    todoListArr[projectIdx].todos[todoIdx].priority = todoPriority;
+    localStorageArr[projectIdx].todos[todoIdx].description = newDescription;
+    localStorageArr[projectIdx].todos[todoIdx].dueDate = newDate;
+    localStorageArr[projectIdx].todos[todoIdx].priority = todoPriority;
+    localStorage.setItem('todos', JSON.stringify(localStorageArr));
     
     contentDiv.innerHTML = '';
     contentDiv.appendChild(confirmMessage);

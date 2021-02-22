@@ -1,15 +1,17 @@
 import todo from './todo';
-import todoListArr from './todoProjectList';
+// import todoListArr from './todoProjectList';
 import {addTodoToHTML} from './addTodoHTML';
 import {showTitles} from './homePage';
 
+
 function createTodoProject(projectName){
     return `
-        <div class="project">${projectName}</div>
+    <div class="project">${projectName}</div>
     `
 }
 
 const addTodoToProject = (e) => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const getTodoForm = e.target.parentElement;
     const contentDiv = getTodoForm.parentElement;
     const consentVid = document.querySelector('#content');
@@ -26,7 +28,8 @@ const addTodoToProject = (e) => {
     });
     const newTodo = new todo(todoDescription, false, todoDueDate, todoPriority);
     
-    todoListArr[projectIdx].todos.push(newTodo);
+    localStorageArr[projectIdx].todos.push(newTodo);
+    localStorage.setItem('todos', JSON.stringify(localStorageArr));
     // console.log(consentVid);
     // contentDiv.innerHTML = '';
     // contentDiv.appendChild(showTitles());

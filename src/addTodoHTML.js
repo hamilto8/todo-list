@@ -1,13 +1,15 @@
 import { add } from 'date-fns';
 import createTodoProject from './addTodoLogic';
 import {deleteTodo, markComplete} from './homePage';
-import todoListArr from './todoProjectList';
+// import todoListArr from './todoProjectList';
+
 
 const addNewProject = () => {
     console.log(`You clicked the button!`);
 }
 
 const addTodoToHTML = (projectIdx) => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const newLi = document.createElement('li');
         newLi.classList.add('todo');
         newLi.innerHTML = `<i class="far fa-circle"></i>`;
@@ -18,10 +20,10 @@ const addTodoToHTML = (projectIdx) => {
             deleteSpan.addEventListener('click', deleteTodo);
 
     const todoText = document.createElement('p');
-            todoText.innerText = `${todoListArr[projectIdx].todos[0].description}`;
+            todoText.innerText = `${JSON.parse(localStorageArr[projectIdx].todos[0]).description}`;
             todoText.addEventListener('click', markComplete);
         
-        newLi.dataset.index = todoListArr[projectIdx].todos.length - 1;
+        newLi.dataset.index = localStorageArr[projectIdx].todos.length - 1;
         newLi.appendChild(todoText);
         newLi.appendChild(deleteSpan);
 
