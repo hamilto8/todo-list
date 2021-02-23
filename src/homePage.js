@@ -129,7 +129,8 @@ const deleteTodo = (e) =>{
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
     
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    JSON.parse(localStorageArr[projectIdx].todos).splice(parentLiIdx, 1);
+    console.log(localStorageArr);
+    localStorageArr[projectIdx].todos.splice(parentLiIdx, 1);
     localStorageArr[projectIdx].shown = false;
     localStorage.setItem('todos', JSON.stringify(localStorageArr));
     projectTitle.removeChild(addBtn);
