@@ -102,13 +102,17 @@ const markComplete = (e) => {
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
 
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+    let localTodo = JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]);
+    console.log(localTodo);
 
-    if(JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus === false){
-        JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus = true;
+    if(localTodo.completedStatus === false){
+        localTodo.completedStatus = true;
+        localStorageArr[projectIdx].todos[parentLiIdx] = JSON.stringify(localTodo);
         localStorage.setItem('todos', JSON.stringify(localStorageArr));
         parentLI.classList.add('todo-complete');
-    } else if(JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus === true){
-        JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]).completedStatus = false;
+    } else if(localTodo.completedStatus === true){
+        localTodo.completedStatus = false;
+        localStorageArr[projectIdx].todos[parentLiIdx] = JSON.stringify(localTodo);
         localStorage.setItem('todos', JSON.stringify(localStorageArr));
         parentLI.classList.remove('todo-complete');
     }
