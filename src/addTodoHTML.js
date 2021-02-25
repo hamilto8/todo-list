@@ -10,6 +10,7 @@ const addNewProject = () => {
 
 const addTodoToHTML = (projectIdx) => {
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+    let todoIdx = localStorageArr[projectIdx].todos.length-1;
     const newLi = document.createElement('li');
         newLi.classList.add('todo');
         newLi.innerHTML = `<i class="far fa-circle"></i>`;
@@ -20,10 +21,10 @@ const addTodoToHTML = (projectIdx) => {
             deleteSpan.addEventListener('click', deleteTodo);
 
     const todoText = document.createElement('p');
-            todoText.innerText = `${JSON.parse(localStorageArr[projectIdx].todos[0]).description}`;
+            todoText.innerText = `${JSON.parse(localStorageArr[projectIdx].todos[todoIdx]).description}`;
             todoText.addEventListener('click', markComplete);
         
-        newLi.dataset.index = JSON.parse(localStorageArr[projectIdx].todos).length - 1;
+        newLi.dataset.index = todoIdx;
         newLi.appendChild(todoText);
         newLi.appendChild(deleteSpan);
 
