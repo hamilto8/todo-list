@@ -20,7 +20,7 @@ const addTodoToProject = (e) => {
     const todoDescription = getTodoForm.querySelector('.todo-description').value;
     const todoDueDate = getTodoForm.querySelector('.due-date').value;
     let todoPriority;
-    contentDiv.removeChild(getTodoForm);
+    // contentDiv.removeChild(getTodoForm);
     todoPriorityInput.forEach((el)=> {
         if(el.checked){
             todoPriority = el.value;
@@ -28,7 +28,7 @@ const addTodoToProject = (e) => {
     });
     const newTodo = new todo(todoDescription, false, todoDueDate, todoPriority);
     
-    localStorageArr[projectIdx].todos.push(newTodo);
+    localStorageArr[projectIdx].todos.push(JSON.stringify(newTodo));
     localStorage.setItem('todos', JSON.stringify(localStorageArr));
     // console.log(consentVid);
     // contentDiv.innerHTML = '';
@@ -37,6 +37,7 @@ const addTodoToProject = (e) => {
     // contentDiv.appendChild(newLiHTML);
     consentVid.innerHTML = '';
     consentVid.appendChild(showTitles());
+    console.log(JSON.parse(localStorage.getItem('todos')));
     return newTodo;
 }
 

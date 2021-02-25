@@ -103,7 +103,6 @@ const markComplete = (e) => {
 
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     let localTodo = JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]);
-    console.log(localTodo);
 
     if(localTodo.completedStatus === false){
         localTodo.completedStatus = true;
@@ -129,7 +128,7 @@ const deleteTodo = (e) =>{
     const projectIdx = parentLI.parentElement.parentElement.dataset.index;
     
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    console.log(localStorageArr);
+    
     localStorageArr[projectIdx].todos.splice(parentLiIdx, 1);
     localStorageArr[projectIdx].shown = false;
     localStorage.setItem('todos', JSON.stringify(localStorageArr));

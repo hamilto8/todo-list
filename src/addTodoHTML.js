@@ -23,7 +23,7 @@ const addTodoToHTML = (projectIdx) => {
             todoText.innerText = `${JSON.parse(localStorageArr[projectIdx].todos[0]).description}`;
             todoText.addEventListener('click', markComplete);
         
-        newLi.dataset.index = localStorageArr[projectIdx].todos.length - 1;
+        newLi.dataset.index = JSON.parse(localStorageArr[projectIdx].todos).length - 1;
         newLi.appendChild(todoText);
         newLi.appendChild(deleteSpan);
 
