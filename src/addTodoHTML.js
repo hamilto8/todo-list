@@ -1,6 +1,6 @@
 import { add } from 'date-fns';
 import createTodoProject from './addTodoLogic';
-import {deleteTodo, markComplete} from './homePage';
+import {deleteTodo, markComplete, editTodoForm} from './homePage';
 // import todoListArr from './todoProjectList';
 
 
@@ -8,9 +8,10 @@ const addNewProject = () => {
     console.log(`You clicked the button!`);
 }
 
-const addTodoToHTML = (projectIdx) => {
+const addTodoToHTML = (idx, todo) => {
+    
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    let todoIdx = localStorageArr[projectIdx].todos.length-1;
+    let todoIdx = localStorageArr[idx].todos.length-1;
     const newLi = document.createElement('li');
         newLi.classList.add('todo');
         newLi.innerHTML = `<i class="far fa-circle"></i>`;
@@ -20,13 +21,27 @@ const addTodoToHTML = (projectIdx) => {
             deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
             deleteSpan.addEventListener('click', deleteTodo);
 
+    const editTodoSpan = document.createElement('span');
+        editTodoSpan.classList.add('edit-todo');
+        editTodoSpan.innerHTML = `<i class="fas fa-edit"></i>`;
+        editTodoSpan.addEventListener('click', editTodoForm);
+
+    const todoTitle = todo.description;
+    const dueDate = todo.dueDate;
+    const todoPriority = todo.priority;
+
     const todoText = document.createElement('p');
-            todoText.innerText = `${JSON.parse(localStorageArr[projectIdx].todos[todoIdx]).description}`;
-            todoText.addEventListener('click', markComplete);
-        
+        todoText.innerHTML = `<strong>Todo:</strong> ${todoTitle} -- <strong>Due:</strong> ${dueDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
+        todoText.addEventListener('click', markComplete);
+
         newLi.dataset.index = todoIdx;
-        newLi.appendChild(todoText);
-        newLi.appendChild(deleteSpan);
+            newLi.appendChild(todoText);
+            newLi.appendChild(deleteSpan);
+            newLi.appendChild(editTodoSpan);
+        
+        // newLi.dataset.index = todoIdx;
+        // newLi.appendChild(todoText);
+        // newLi.appendChild(deleteSpan);
 
     return newLi;     
 }
