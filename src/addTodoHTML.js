@@ -1,6 +1,7 @@
 import { add } from 'date-fns';
 import createTodoProject from './addTodoLogic';
-import {deleteTodo, markComplete, editTodoForm} from './homePage';
+import {deleteTodo, markComplete} from './homePage';
+import {editTodoForm} from './editTodo';
 // import todoListArr from './todoProjectList';
 
 
@@ -38,10 +39,6 @@ const addTodoToHTML = (idx, todo) => {
             newLi.appendChild(todoText);
             newLi.appendChild(deleteSpan);
             newLi.appendChild(editTodoSpan);
-        
-        // newLi.dataset.index = todoIdx;
-        // newLi.appendChild(todoText);
-        // newLi.appendChild(deleteSpan);
 
     return newLi;     
 }

@@ -1,11 +1,12 @@
-// import todoListArr from './todoProjectList';
 import {showTitles} from './homePage';
 
 const editTodoForm = (e) => {
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const contentDiv = document.querySelector('#content');
     const selectedTodo = e.target.parentElement.parentElement;
     const selectedTodoIdx = selectedTodo.dataset.index;
     const projectIdx = selectedTodo.parentElement.parentElement.dataset.index;
+    let localTodo = JSON.parse(localStorageArr[projectIdx].todos[selectedTodoIdx]);
     
     const editTodoDiv = document.createElement('div');
         editTodoDiv.classList.add('edit-todo-form');
@@ -25,14 +26,12 @@ const editTodoForm = (e) => {
     const editTodoDescription = document.createElement('input');
         editTodoDescription.classList.add('edit-description');
         editTodoDescription.type = 'text';
-        editTodoDescription.value = todoListArr[projectIdx].todos[selectedTodoIdx].description;
+        editTodoDescription.value = localTodo.description;
 
     const editTodoDueDate = document.createElement('input');
         editTodoDueDate.classList.add('edit-date');
         editTodoDueDate.type = 'date';
-        editTodoDueDate.value = todoListArr[projectIdx].todos[selectedTodoIdx].dueDate;
-
-    
+        editTodoDueDate.value = localTodo.dueDate;
     
     const confirmEditBtn = document.createElement('button');
         confirmEditBtn.classList.add('confirm-edit-btn');
@@ -66,7 +65,6 @@ const editTodoForm = (e) => {
 
     contentDiv.innerHTML = '';
     contentDiv.appendChild(editTodoDiv);
-    // console.log(todoPriority);
 }
 
 const confirmEdits = () => {
@@ -77,7 +75,10 @@ const confirmEdits = () => {
     const newDate = editForm.querySelector('.edit-date').value;
     const projectIdx = editForm.querySelector('.edit-project-label').dataset.index;
     const todoIdx = editForm.querySelector('.edit-todo-label').dataset.index;
+    let localTodo = JSON.parse(localStorageArr[projectIdx].todos[todoIdx]);
     const editPriorityInput = editForm.querySelector('.edit-priority-form').querySelector('div').querySelectorAll('input[name="todo-priority"]');
+    const projectList = document.querySelector('.project-list');
+    const editTodoForm = contentDiv.querySelector('.edit-todo-form');
 
     let todoPriority;
     
@@ -97,16 +98,18 @@ const confirmEdits = () => {
 
     console.log('confirming edits...');
     
-    localStorageArr[projectIdx].todos[todoIdx].description = newDescription;
-    localStorageArr[projectIdx].todos[todoIdx].dueDate = newDate;
-    localStorageArr[projectIdx].todos[todoIdx].priority = todoPriority;
+    localTodo.description = newDescription;
+    localTodo.dueDate = newDate;
+    localTodo.priority = todoPriority;
+    localStorageArr[projectIdx].todos[todoIdx] = JSON.stringify(localTodo);
     localStorage.setItem('todos', JSON.stringify(localStorageArr));
     
-    contentDiv.innerHTML = '';
+    // contentDiv.innerHTML = '';
     contentDiv.appendChild(confirmMessage);
     setTimeout(() => {
-        contentDiv.innerHTML = '';
-        contentDiv.appendChild(showTitles())
+        contentDiv.removeChild(confirmMessage);
+        contentDiv.removeChild(editTodoForm);
+        contentDiv.appendChild(showTitles());
     }, 1000);
 }
 
