@@ -213,6 +213,7 @@ const deleteProject = (e) => {
     const contentDiv = e.target.parentElement.parentElement.querySelector('#content');
     const projectListDiv = contentDiv.querySelector('.project-list');
     contentDiv.removeChild(projectListDiv);
+    // projectListDiv.style.display = 'none';
     
     const removeProjectPage = document.createElement('div');
         removeProjectPage.classList.add('remove-project-page');
@@ -254,13 +255,12 @@ const returnToHome = (e) => {
 }
 
 const confirmRemoveProject = (e) =>{
+    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const contentDiv = e.target.parentElement.parentElement.parentElement.parentElement;
     const removeProjectPage = contentDiv.querySelector('.remove-project-page');
     const goBackBtn = contentDiv.querySelector('.go-back-button');
     const projectIdx = e.target.parentElement.parentElement.dataset.index;
-    const projectTitle = todoListArr[projectIdx].title;
-
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+    const projectTitle = localStorageArr[projectIdx].title;
 
     localStorageArr.splice(projectIdx, 1);
     localStorage.setItem('todos', JSON.stringify(localStorageArr));

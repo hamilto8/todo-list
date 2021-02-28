@@ -64,7 +64,6 @@ const editTodoForm = (e) => {
     editTodoDiv.appendChild(todoPriorityForm);
     editTodoDiv.appendChild(confirmEditBtn);
 
-    // contentDiv.innerHTML = '';
     projectListDiv.style.display = 'none';
     contentDiv.appendChild(editTodoDiv);
 }
@@ -100,7 +99,6 @@ const confirmEdits = () => {
         }
     });
 
-    
     let todoPriority;
     
     editPriorityInput.forEach((el)=> {
@@ -115,10 +113,6 @@ const confirmEdits = () => {
     
     let editsConfirmed = false;
     
-    
-    
-    console.log('confirming edits...');
-    
     localTodo.description = newDescription;
     localTodo.dueDate = newDate;
     localTodo.priority = todoPriority;
@@ -127,7 +121,6 @@ const confirmEdits = () => {
     
     const todoText = editedTodo.querySelector('p');
     todoText.innerHTML = `<strong>Todo:</strong> ${newDescription} -- <strong>Due:</strong> ${newDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
-    // contentDiv.innerHTML = '';
     contentDiv.appendChild(confirmMessage);
     setTimeout(() => {
         contentDiv.removeChild(confirmMessage);
