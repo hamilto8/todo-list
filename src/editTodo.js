@@ -3,6 +3,7 @@ import {showTitles} from './homePage';
 const editTodoForm = (e) => {
     let localStorageArr = JSON.parse(localStorage.getItem('todos'));
     const contentDiv = document.querySelector('#content');
+    const projectListDiv = contentDiv.querySelector('.project-list');
     const selectedTodo = e.target.parentElement.parentElement;
     const selectedTodoIdx = selectedTodo.dataset.index;
     const projectIdx = selectedTodo.parentElement.parentElement.dataset.index;
@@ -63,7 +64,8 @@ const editTodoForm = (e) => {
     editTodoDiv.appendChild(todoPriorityForm);
     editTodoDiv.appendChild(confirmEditBtn);
 
-    contentDiv.innerHTML = '';
+    // contentDiv.innerHTML = '';
+    projectListDiv.style.display = 'none';
     contentDiv.appendChild(editTodoDiv);
 }
 
@@ -77,9 +79,28 @@ const confirmEdits = () => {
     const todoIdx = editForm.querySelector('.edit-todo-label').dataset.index;
     let localTodo = JSON.parse(localStorageArr[projectIdx].todos[todoIdx]);
     const editPriorityInput = editForm.querySelector('.edit-priority-form').querySelector('div').querySelectorAll('input[name="todo-priority"]');
-    const projectList = document.querySelector('.project-list');
     const editTodoForm = contentDiv.querySelector('.edit-todo-form');
+    const projectListDiv = contentDiv.querySelector('.project-list');
+    const projectDiv = projectListDiv.querySelectorAll(`.project`);
+    let todoProjectDiv;
 
+    projectDiv.forEach((project)=>{
+        if(project.dataset.index === projectIdx) {
+            todoProjectDiv = project;
+        }
+    });
+
+    let allTodosInProject = todoProjectDiv.querySelectorAll('.todo');
+
+    let editedTodo;
+
+    allTodosInProject.forEach((todo)=>{
+        if(todo.dataset.index === todoIdx){
+            editedTodo = todo;
+        }
+    });
+
+    
     let todoPriority;
     
     editPriorityInput.forEach((el)=> {
@@ -87,15 +108,15 @@ const confirmEdits = () => {
             todoPriority = el.value;
         }
     });
-
+    
     const confirmMessage = document.createElement('p');
-        confirmMessage.classList.add('confirm-message');
-        confirmMessage.innerText = 'Edits Saved';
-
+    confirmMessage.classList.add('confirm-message');
+    confirmMessage.innerText = 'Edits Saved';
+    
     let editsConfirmed = false;
-
-
-
+    
+    
+    
     console.log('confirming edits...');
     
     localTodo.description = newDescription;
@@ -104,12 +125,14 @@ const confirmEdits = () => {
     localStorageArr[projectIdx].todos[todoIdx] = JSON.stringify(localTodo);
     localStorage.setItem('todos', JSON.stringify(localStorageArr));
     
+    const todoText = editedTodo.querySelector('p');
+    todoText.innerHTML = `<strong>Todo:</strong> ${newDescription} -- <strong>Due:</strong> ${newDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
     // contentDiv.innerHTML = '';
     contentDiv.appendChild(confirmMessage);
     setTimeout(() => {
         contentDiv.removeChild(confirmMessage);
         contentDiv.removeChild(editTodoForm);
-        contentDiv.appendChild(showTitles());
+        projectListDiv.style.display = 'grid';
     }, 1000);
 }
 
