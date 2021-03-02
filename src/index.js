@@ -11,7 +11,6 @@ addBtn.addEventListener('click', addTodoForm);
 homeBtn.addEventListener('click', showHome);
 deleteBtn.addEventListener('click', deleteProject)
 
-
 function showHome(){
     contentDiv.innerHTML = '';
     contentDiv.appendChild(showTitles());

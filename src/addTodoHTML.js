@@ -2,8 +2,6 @@ import { add } from 'date-fns';
 import createTodoProject from './addTodoLogic';
 import {deleteTodo, markComplete} from './homePage';
 import {editTodoForm} from './editTodo';
-// import todoListArr from './todoProjectList';
-
 
 const addNewProject = () => {
     console.log(`You clicked the button!`);

@@ -1,7 +1,7 @@
 import todo from './todo';
 import todoListArr from './todoProjectList';
 
-// let todoListArr = [];
+let demoStart = JSON.parse(localStorage.getItem('demoStart'));
 
 class todoProject {
     constructor(title = 'Untitled Project', shown = false, todos = []){
@@ -21,8 +21,10 @@ firstProject.todos.push(JSON.stringify(firstTodo));
 firstProject.todos.push(JSON.stringify(secondTodo));
 
 let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-localStorageArr.push(firstProject);
-localStorage.setItem('todos', JSON.stringify(localStorageArr));
+if(demoStart === null){
+    localStorage.setItem('demoStart', JSON.stringify('1'));
+}
+
 let todoProjectListUl = document.createElement('ul');
 
 export {todoProjectListUl, todoListArr, todoProject}

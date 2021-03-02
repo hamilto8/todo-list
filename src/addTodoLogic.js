@@ -1,5 +1,4 @@
 import todo from './todo';
-// import todoListArr from './todoProjectList';
 import {addTodoToHTML} from './addTodoHTML';
 import {showTitles, showTodos} from './homePage';
 
@@ -32,7 +31,6 @@ const addTodoToProject = (e) => {
     
     localStorageArr[projectIdx].todos.push(JSON.stringify(newTodo));
     localStorage.setItem('todos', JSON.stringify(localStorageArr));
-
     
     projectDiv.removeChild(getTodoForm);
     projectUl.appendChild(addTodoToHTML(projectIdx, newTodo));

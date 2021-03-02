@@ -4,10 +4,6 @@ import {getTodoForm} from './getTodoForm';
 import {logTodos, todoListArr, todoProject} from './todoProject';
 import {editTodoForm} from './editTodo';
 
-let completeDOT = `<i class="fas fa-circle"></i>`;
-
-// let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-
 const homePage = () => {
     
 }
@@ -147,7 +143,6 @@ const addNewTodo = (e) =>{
     const projectUl = project.querySelector('ul');
     const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
 
-    // console.log('adding...')
     project.appendChild(getTodoForm());
 }
 
@@ -213,7 +208,6 @@ const deleteProject = (e) => {
     const contentDiv = e.target.parentElement.parentElement.querySelector('#content');
     const projectListDiv = contentDiv.querySelector('.project-list');
     contentDiv.removeChild(projectListDiv);
-    // projectListDiv.style.display = 'none';
     
     const removeProjectPage = document.createElement('div');
         removeProjectPage.classList.add('remove-project-page');
