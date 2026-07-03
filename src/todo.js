@@ -1,10 +1,10 @@
-class todo {
-   constructor(description, completedStatus, dueDate, priority){
-       this.description = description;
-       this.completedStatus = completedStatus;
-       this.dueDate = dueDate;
-       this.priority = priority;
-   }
+class Todo {
+    constructor(description, completedStatus = false, dueDate = '', priority = 'low') {
+        this.description = description;
+        this.completedStatus = completedStatus;
+        this.dueDate = dueDate;
+        this.priority = priority;
+    }
 }
 
-export default todo
+export default Todo;

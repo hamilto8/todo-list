@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bind Form Submissions
     const projectForm = document.getElementById('project-form');
     projectForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const titleInput = document.getElementById('new-project-title');
         const title = titleInput.value.trim();
         if (title) {
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const todoForm = document.getElementById('todo-form');
     todoForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const descriptionInput = document.getElementById('todo-description');
         const dueDateInput = document.getElementById('todo-due-date');
         const priorityRadios = document.getElementsByName('priority');
@@ -93,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const editForm = document.getElementById('edit-form');
     editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const descriptionInput = document.getElementById('edit-todo-description');
         const dueDateInput = document.getElementById('edit-todo-due-date');
         const priorityRadios = document.getElementsByName('priority');

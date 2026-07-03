@@ -1,32 +1,35 @@
-import todo from './todo';
-import todoListArr from './todoProjectList';
+import Todo from './todo';
 
-class todoProject {
-    constructor(title = 'Untitled Project', shown = false, todos = []){
+class TodoProject {
+    constructor(title = 'Untitled Project', shown = false, todos = []) {
         this.title = title;
         this.shown = shown;
         this.todos = todos;
     }
 }
 
-const firstProject = new todoProject('My First Project', false);
-const secondProject = new todoProject('My Second Project', false);
-
-const firstTodo = new todo('Buy Milk', false, '2021-02-11', 'low');
-const secondTodo = new todo('Go to work', false, '2022-03-01', 'low');
-
-firstProject.todos.push(firstTodo);
-firstProject.todos.push(secondTodo);
-
-let demoStart = localStorage.getItem('demoStart');
-if(demoStart === null){
-    localStorage.setItem('demoStart', '1');
-    let currentTodos = JSON.parse(localStorage.getItem('todos'));
-    if (!currentTodos || currentTodos.length === 0) {
-        localStorage.setItem('todos', JSON.stringify([firstProject, secondProject]));
+// Initialize and seed LocalStorage on first run
+function initializeStorage() {
+    const isInitiated = localStorage.getItem('taskflow_initiated');
+    if (!isInitiated) {
+        localStorage.setItem('taskflow_initiated', '1');
+        const existingTodos = JSON.parse(localStorage.getItem('todos'));
+        if (!existingTodos || existingTodos.length === 0) {
+            const firstProject = new TodoProject('Personal Tasks', false, [
+                new Todo('Buy Groceries', false, new Date(Date.now() + 86400000).toISOString().split('T')[0], 'medium'),
+                new Todo('Schedule Dentist Appointment', false, new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0], 'low')
+            ]);
+            const secondProject = new TodoProject('Work & Projects', false, [
+                new Todo('Prepare Weekly Report', false, new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0], 'high'),
+                new Todo('Review Pull Requests', true, new Date().toISOString().split('T')[0], 'medium')
+            ]);
+            localStorage.setItem('todos', JSON.stringify([firstProject, secondProject]));
+            localStorage.setItem('activeProjectIdx', '0');
+        }
     }
 }
 
-let todoProjectListUl = document.createElement('ul');
+// Run storage initialization
+initializeStorage();
 
-export {todoProjectListUl, todoListArr, todoProject}
+export { TodoProject, initializeStorage };

@@ -44,6 +44,11 @@
     padding: 0;
 }
 
+*:focus-visible {
+    outline: 2px solid var(--accent-indigo);
+    outline-offset: 2px;
+}
+
 html, body {
     height: 100%;
     background-color: var(--bg-primary);
@@ -382,6 +387,10 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none;
 }
 
 .task-checkbox-wrapper:hover {

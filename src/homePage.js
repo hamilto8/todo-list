@@ -1,4 +1,4 @@
-import { todoProject } from './todoProject';
+import { TodoProject } from './todoProject';
 
 // Escape HTML helper to secure against XSS
 function escapeHTML(str) {
@@ -39,7 +39,7 @@ const renderSidebar = () => {
                 <i class="fas fa-folder"></i>
                 <span class="project-title-text">${escapeHTML(project.title)}</span>
             </div>
-            <button class="delete-project-btn" title="Delete Project">
+            <button type="button" class="delete-project-btn" title="Delete Project" aria-label="Delete project: ${escapeHTML(project.title)}">
                 <i class="fas fa-trash-alt"></i>
             </button>
         `;
@@ -112,7 +112,7 @@ const renderActiveProject = () => {
             <h1>${escapeHTML(activeProject.title)}</h1>
             <p>${activeProject.todos.length} task${activeProject.todos.length !== 1 ? 's' : ''} total</p>
         </div>
-        <button class="add-task-btn" id="add-task-btn">
+        <button type="button" class="add-task-btn" id="add-task-btn">
             <i class="fas fa-plus"></i> Add Task
         </button>
     `;
@@ -157,24 +157,24 @@ const renderActiveProject = () => {
             
             taskCard.innerHTML = `
                 <div class="task-left">
-                    <div class="task-checkbox-wrapper" title="${todo.completedStatus ? 'Mark Incomplete' : 'Mark Complete'}">
+                    <button type="button" class="task-checkbox-wrapper" title="${todo.completedStatus ? 'Mark Incomplete' : 'Mark Complete'}" aria-label="${todo.completedStatus ? 'Mark task incomplete: ' : 'Mark task complete: '}${escapeHTML(todo.description)}">
                         <i class="${todo.completedStatus ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
-                    </div>
+                    </button>
                     <div class="task-content">
                         <span class="task-title">${escapeHTML(todo.description)}</span>
                         <div class="task-meta">
                             <span class="${dueDateClass}">
-                                <i class="far fa-calendar-alt"></i> ${todo.dueDate || 'No Date'}
+                                <i class="far fa-calendar-alt"></i> ${escapeHTML(todo.dueDate || 'No Date')}
                             </span>
-                            <span class="priority-badge ${todo.priority || 'low'}">${todo.priority || 'low'}</span>
+                            <span class="priority-badge ${escapeHTML(todo.priority || 'low')}">${escapeHTML(todo.priority || 'low')}</span>
                         </div>
                     </div>
                 </div>
                 <div class="task-right">
-                    <button class="task-action-btn edit-task-btn" title="Edit Task">
+                    <button type="button" class="task-action-btn edit-task-btn" title="Edit Task" aria-label="Edit task: ${escapeHTML(todo.description)}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="task-action-btn delete-task-btn" title="Delete Task">
+                    <button type="button" class="task-action-btn delete-task-btn" title="Delete Task" aria-label="Delete task: ${escapeHTML(todo.description)}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
