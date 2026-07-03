@@ -3,20 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <title>TaskFlow — Sleek Todo Dashboard</title>
+    <!-- Modern Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Todo App</title>
 </head>
 <body>
-    <nav class="navbar">
-        <i class="fas fa-list-ul homeBtn"></i> 
-        <i class="far fa-plus-square addBtn"></i>
-        <i class="far fa-calendar-times delete-btn"></i>
-        Todo App
-    </nav>
-    <div id="content"></div>
-    <footer class="footer">Michael Hamilton 2021</footer>
+    <header class="app-header">
+        <div class="logo">
+            <i class="fas fa-check-double logo-icon"></i>
+            <span>TaskFlow</span>
+        </div>
+        <div class="user-status">
+            <span class="status-indicator"></span>
+            <span class="status-text">Local Storage Sync</span>
+        </div>
+    </header>
+    
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Projects</h2>
+                <button class="add-project-trigger" id="add-project-btn" title="Add Project">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <nav class="projects-nav" id="projects-list">
+                <!-- Projects list will be dynamically injected here -->
+            </nav>
+        </aside>
+        
+        <main class="main-content" id="content">
+            <!-- Active Project tasks will be dynamically injected here -->
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <span>&copy; 2026 Michael Hamilton. Crafted with precision &amp; modern APIs.</span>
+    </footer>
+
+    <!-- Modals for Creating/Editing -->
+    <dialog id="project-dialog" class="modal-dialog">
+        <form method="dialog" class="dialog-form" id="project-form">
+            <h3>Create New Project</h3>
+            <div class="form-group">
+                <label for="new-project-title">Project Name</label>
+                <input type="text" id="new-project-title" name="projectTitle" placeholder="e.g., Personal, Work, Fitness" required autocomplete="off">
+            </div>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-secondary" id="close-project-dialog">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="confirm-project-btn">Create Project</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="todo-dialog" class="modal-dialog">
+        <form method="dialog" class="dialog-form" id="todo-form">
+            <h3>Add New Task</h3>
+            <div class="form-group">
+                <label for="todo-description">Task Description</label>
+                <input type="text" id="todo-description" name="description" placeholder="What needs to be done?" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="todo-due-date">Due Date</label>
+                <input type="date" id="todo-due-date" name="dueDate" required>
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-selector">
+                    <input type="radio" id="priority-low" name="priority" value="low" checked>
+                    <label for="priority-low" class="priority-label low-label">Low</label>
+                    
+                    <input type="radio" id="priority-medium" name="priority" value="medium">
+                    <label for="priority-medium" class="priority-label medium-label">Medium</label>
+                    
+                    <input type="radio" id="priority-high" name="priority" value="high">
+                    <label for="priority-high" class="priority-label high-label">High</label>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-secondary" id="close-todo-dialog">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="confirm-todo-btn">Add Task</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="edit-dialog" class="modal-dialog">
+        <form method="dialog" class="dialog-form" id="edit-form">
+            <h3>Edit Task</h3>
+            <input type="hidden" id="edit-project-idx">
+            <input type="hidden" id="edit-todo-idx">
+            
+            <div class="form-group">
+                <label for="edit-todo-description">Task Description</label>
+                <input type="text" id="edit-todo-description" name="description" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="edit-todo-due-date">Due Date</label>
+                <input type="date" id="edit-todo-due-date" name="dueDate" required>
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-selector">
+                    <input type="radio" id="edit-priority-low" name="priority" value="low">
+                    <label for="edit-priority-low" class="priority-label low-label">Low</label>
+                    
+                    <input type="radio" id="edit-priority-medium" name="priority" value="medium">
+                    <label for="edit-priority-medium" class="priority-label medium-label">Medium</label>
+                    
+                    <input type="radio" id="edit-priority-high" name="priority" value="high">
+                    <label for="edit-priority-high" class="priority-label high-label">High</label>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-secondary" id="close-edit-dialog">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="confirm-edit-btn">Save Changes</button>
+            </div>
+        </form>
+    </dialog>
+
     <script src="main.js"></script>
 </body>
 </html>

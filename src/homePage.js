@@ -1,275 +1,223 @@
-import { hr } from 'date-fns/locale';
-import todo from './todo';
-import {getTodoForm} from './getTodoForm';
-import {logTodos, todoListArr, todoProject} from './todoProject';
-import {editTodoForm} from './editTodo';
+import { todoProject } from './todoProject';
 
-const homePage = () => {
+// Escape HTML helper to secure against XSS
+function escapeHTML(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+const renderSidebar = () => {
+    const projectsListEl = document.getElementById('projects-list');
+    if (!projectsListEl) return;
     
-}
-
-const showTitles = () => {
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    const projectList = document.createElement('div');
-        projectList.classList.add('project-list');
-    localStorageArr.forEach((project, idx)=>{
-        const projectDiv = document.createElement('div');
-            projectDiv.classList.add('project');
-            projectDiv.dataset.index = idx;
-        const titleSpan = document.createElement('span');
-            titleSpan.classList.add('project-title');
-        const h5 = document.createElement('h5');
-            h5.innerText = project.title;
+    projectsListEl.innerHTML = '';
+    
+    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+    let activeProjectIdx = Number(localStorage.getItem('activeProjectIdx') || 0);
+    
+    // Clamp active index
+    if (activeProjectIdx >= todos.length) {
+        activeProjectIdx = Math.max(0, todos.length - 1);
+        localStorage.setItem('activeProjectIdx', activeProjectIdx);
+    }
+    
+    todos.forEach((project, idx) => {
+        const projectEl = document.createElement('div');
+        projectEl.className = 'project-item';
+        if (idx === activeProjectIdx) {
+            projectEl.classList.add('active');
+        }
+        projectEl.dataset.index = idx;
         
-        titleSpan.appendChild(h5);
-        titleSpan.addEventListener('click', showTodos)
+        projectEl.innerHTML = `
+            <div class="project-item-left">
+                <i class="fas fa-folder"></i>
+                <span class="project-title-text">${escapeHTML(project.title)}</span>
+            </div>
+            <button class="delete-project-btn" title="Delete Project">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        `;
         
-        projectDiv.appendChild(titleSpan);
-        projectList.appendChild(projectDiv);
-    });
-    return projectList;
-}
-
-const showTodos = (e) => {
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    const projectIdx = e.target.parentElement.parentElement.dataset.index;
-    if(!localStorageArr[projectIdx].shown){
-        localStorageArr[projectIdx].shown = true;
-        const project = e.target.parentElement.parentElement.querySelector('.project-title');
-        
-        const addNewTodoBtn = document.createElement('div');
-        addNewTodoBtn.classList.add('add-todo-btn');
-        addNewTodoBtn.innerHTML = `<i class="fas fa-plus"></i>`;
-        addNewTodoBtn.addEventListener('click', addNewTodo);
-        project.appendChild(addNewTodoBtn);
-
-        const todoListUl = document.createElement('ul');
-            todoListUl.classList.add('todo-project');
-        localStorageArr[projectIdx].todos.forEach((todo, idx)=>{
-            const li = document.createElement('li');
-                li.classList.add('todo')
-                if(JSON.parse(localStorageArr[projectIdx].todos[idx]).completedStatus){
-                    li.classList.add('todo-complete');
-                }
-                li.innerHTML = `<i class="far fa-circle"></i>`;
-            const deleteSpan = document.createElement('span');
-                deleteSpan.classList.add('delete-todo');
-                deleteSpan.innerHTML = `<i class="far fa-trash-alt"></i>`;
-                deleteSpan.addEventListener('click', deleteTodo);
-            
-            const editTodoSpan = document.createElement('span');
-                editTodoSpan.classList.add('edit-todo');
-                editTodoSpan.innerHTML = `<i class="fas fa-edit"></i>`;
-                editTodoSpan.addEventListener('click', editTodoForm);
-                
-                const todoTitle = JSON.parse(todo).description;
-                const dueDate = JSON.parse(todo).dueDate;
-                const todoPriority = JSON.parse(todo).priority;
-
-                const todoText = document.createElement('p');
-                    todoText.innerHTML = `<strong>Todo:</strong> ${todoTitle} -- <strong>Due:</strong> ${dueDate} -- <strong>Priority:</strong> <span class="todo-priority">${todoPriority}</span>`;
-                    todoText.addEventListener('click', markComplete);
-
-                
-                li.dataset.index = idx;
-                li.appendChild(todoText);
-                li.appendChild(deleteSpan);
-                li.appendChild(editTodoSpan);
-                todoListUl.appendChild(li);
+        // Click to toggle active project
+        projectEl.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-project-btn')) return;
+            localStorage.setItem('activeProjectIdx', idx);
+            renderSidebar();
+            renderActiveProject();
         });
-        localStorage.setItem('todos', JSON.stringify(localStorageArr));
-        e.target.parentElement.parentElement.appendChild(todoListUl);
-
-    } else {
-        let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-        localStorageArr[projectIdx].shown = false;
-        const project = e.target.parentElement.parentElement;
-        const oldChild = e.target.parentElement.parentElement.querySelector('ul');
-        const addBtn = e.target.parentElement.parentElement.querySelector('.add-todo-btn');
-        oldChild.parentNode.removeChild(oldChild);
-        addBtn.parentNode.removeChild(addBtn);
-        localStorage.setItem('todos', JSON.stringify(localStorageArr));
-    }
-}
-
-const markComplete = (e) => {
-    const parentLI = e.target.parentElement;
-    const parentLiIdx = parentLI.dataset.index;
-    const projectIdx = parentLI.parentElement.parentElement.dataset.index;
-
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    let localTodo = JSON.parse(localStorageArr[projectIdx].todos[parentLiIdx]);
-
-    if(localTodo.completedStatus === false){
-        localTodo.completedStatus = true;
-        localStorageArr[projectIdx].todos[parentLiIdx] = JSON.stringify(localTodo);
-        localStorage.setItem('todos', JSON.stringify(localStorageArr));
-        parentLI.classList.add('todo-complete');
-    } else if(localTodo.completedStatus === true){
-        localTodo.completedStatus = false;
-        localStorageArr[projectIdx].todos[parentLiIdx] = JSON.stringify(localTodo);
-        localStorage.setItem('todos', JSON.stringify(localStorageArr));
-        parentLI.classList.remove('todo-complete');
-    }
-}
-
-const deleteTodo = (e) =>{
-    const parentLI = e.target.parentElement.parentElement;
-    const parentLiIdx = parentLI.dataset.index;
-    const projectUl = parentLI.parentElement;
-    const mainProject = parentLI.parentElement.parentElement;
-    const project = parentLI.parentElement.parentElement.querySelector('.todo-project');
-    const projectTitle = parentLI.parentElement.parentElement.querySelector('.project-title');
-    const addBtn = parentLI.parentElement.parentElement.querySelector('.add-todo-btn');
-    const projectIdx = parentLI.parentElement.parentElement.dataset.index;
-    
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    
-    localStorageArr[projectIdx].todos.splice(parentLiIdx, 1);
-    localStorageArr[projectIdx].shown = false;
-    localStorage.setItem('todos', JSON.stringify(localStorageArr));
-    projectTitle.removeChild(addBtn);
-    mainProject.removeChild(project);
-}
-
-const editTodo = (e) =>{
-    console.log('editing the todo...');
-}
-
-
-const addNewTodo = (e) =>{
-    const project = e.target.parentElement.parentElement.parentElement;
-    const contentDiv = project.parentElement.parentElement;
-    const projectUl = project.querySelector('ul');
-    const projectIdx = e.target.parentElement.parentElement.parentElement.dataset.index;
-
-    project.appendChild(getTodoForm());
-}
-
-const addTodoToProject = () => {
-    
-}
-
-const addNewProject = () => {
-    const projectListDiv = document.querySelector('.project-list');
-    const contentDiv = document.querySelector('#content');
-    
-    contentDiv.removeChild(projectListDiv);
-
-    const addNewProjectDiv = document.createElement('div');
-        addNewProjectDiv.classList.add('add-new-project');
-
-    const projectP = document.createElement('p');
-            projectP.innerText = 'You are Adding a New Project!';
-
-    let inputProject = document.createElement('input');
-        inputProject.type = 'text';
-        inputProject.classList.add('new-project-title');
-        inputProject.placeholder = 'Enter your project name here';
-        inputProject.addEventListener('keydown', e => {
-            if(e.key === 'Enter'){
-                if(e.target.value !== ''){
-                    confirmAdd(e);
+        
+        // Delete project click handler
+        const deleteBtn = projectEl.querySelector('.delete-project-btn');
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`Are you sure you want to delete the project "${project.title}"?`)) {
+                let currentTodos = JSON.parse(localStorage.getItem('todos')) || [];
+                currentTodos.splice(idx, 1);
+                localStorage.setItem('todos', JSON.stringify(currentTodos));
+                
+                let currentActive = Number(localStorage.getItem('activeProjectIdx') || 0);
+                if (currentActive >= currentTodos.length) {
+                    currentActive = Math.max(0, currentTodos.length - 1);
                 }
+                localStorage.setItem('activeProjectIdx', currentActive);
+                
+                renderSidebar();
+                renderActiveProject();
             }
         });
+        
+        projectsListEl.appendChild(projectEl);
+    });
+};
 
-
-    const confirmAddBtn = document.createElement('button');
-        confirmAddBtn.innerText = 'Confirm!'
-        confirmAddBtn.addEventListener('click', confirmAdd);
-
-        addNewProjectDiv.appendChild(projectP)
-        addNewProjectDiv.appendChild(inputProject);
-        addNewProjectDiv.appendChild(confirmAddBtn);
-
-        return addNewProjectDiv
-}
-
-const confirmAdd = (e)=>{
-    const newProjTitle = e.target.parentElement.querySelector('.new-project-title').value;
-    const contentDiv = document.querySelector('#content')
-    const addNewProjectDiv = document.querySelector('.add-new-project');
-
-    if(newProjTitle.length > 0){
-        const newProj = new todoProject(newProjTitle, false, []);
-        let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-        localStorageArr.push(newProj);
-        localStorage.setItem('todos', JSON.stringify(localStorageArr));
-        console.log(todoListArr);
+const renderActiveProject = () => {
+    const contentEl = document.getElementById('content');
+    if (!contentEl) return;
+    
+    contentEl.innerHTML = '';
+    
+    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+    let activeProjectIdx = Number(localStorage.getItem('activeProjectIdx') || 0);
+    
+    if (activeProjectIdx >= todos.length) {
+        activeProjectIdx = Math.max(0, todos.length - 1);
+        localStorage.setItem('activeProjectIdx', activeProjectIdx);
     }
-    contentDiv.removeChild(addNewProjectDiv);
-
-    contentDiv.appendChild(showTitles());
     
-}
-
-const deleteProject = (e) => {
-    const contentDiv = e.target.parentElement.parentElement.querySelector('#content');
-    const projectListDiv = contentDiv.querySelector('.project-list');
-    contentDiv.removeChild(projectListDiv);
+    // Empty state
+    if (todos.length === 0) {
+        contentEl.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <h3>No Projects Found</h3>
+                <p>Create a new project in the sidebar to get started!</p>
+            </div>
+        `;
+        return;
+    }
     
-    const removeProjectPage = document.createElement('div');
-        removeProjectPage.classList.add('remove-project-page');
-        removeProjectPage.innerHTML = `<p>Choose a Project to Remove</p>`;
+    const activeProject = todos[activeProjectIdx];
     
-    const goBackButton = document.createElement('button');
-        goBackButton.classList.add('go-back-button');
-        goBackButton.innerText = "Go Back";
-        goBackButton.addEventListener('click', returnToHome);
+    // Create Header Panel
+    const headerPanel = document.createElement('div');
+    headerPanel.className = 'project-header-panel';
+    headerPanel.innerHTML = `
+        <div class="project-header-info">
+            <h1>${escapeHTML(activeProject.title)}</h1>
+            <p>${activeProject.todos.length} task${activeProject.todos.length !== 1 ? 's' : ''} total</p>
+        </div>
+        <button class="add-task-btn" id="add-task-btn">
+            <i class="fas fa-plus"></i> Add Task
+        </button>
+    `;
     
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-
-    localStorageArr.forEach((project, idx) => {
-        const title = project.title;
-        const titleDiv = document.createElement('div');
-            titleDiv.classList.add('remove-project-title')
-            titleDiv.innerHTML = `
-                <div class="title-div">  
-                    <i class="fas fa-circle"></i>
-                    <p>${title}</p>
+    // Bind Add Task Dialog open trigger
+    headerPanel.querySelector('#add-task-btn').addEventListener('click', () => {
+        document.getElementById('todo-description').value = '';
+        document.getElementById('todo-due-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('priority-low').checked = true;
+        document.getElementById('todo-dialog').showModal();
+    });
+    
+    contentEl.appendChild(headerPanel);
+    
+    // Create Tasks list container
+    const tasksContainer = document.createElement('div');
+    tasksContainer.className = 'tasks-container';
+    
+    if (activeProject.todos.length === 0) {
+        const noTasksEl = document.createElement('div');
+        noTasksEl.className = 'empty-state';
+        noTasksEl.style.padding = '3rem 0';
+        noTasksEl.innerHTML = `
+            <i class="fas fa-tasks"></i>
+            <h3>No Tasks Yet</h3>
+            <p>Add your first task to get going!</p>
+        `;
+        tasksContainer.appendChild(noTasksEl);
+    } else {
+        activeProject.todos.forEach((todo, todoIdx) => {
+            const taskCard = document.createElement('div');
+            taskCard.className = 'task-card';
+            if (todo.completedStatus) {
+                taskCard.classList.add('completed');
+            }
+            taskCard.dataset.index = todoIdx;
+            
+            // Check overdue
+            const todayStr = new Date().toISOString().split('T')[0];
+            const isOverdue = !todo.completedStatus && todo.dueDate && todo.dueDate < todayStr;
+            const dueDateClass = isOverdue ? 'task-due-date overdue' : 'task-due-date';
+            
+            taskCard.innerHTML = `
+                <div class="task-left">
+                    <div class="task-checkbox-wrapper" title="${todo.completedStatus ? 'Mark Incomplete' : 'Mark Complete'}">
+                        <i class="${todo.completedStatus ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
+                    </div>
+                    <div class="task-content">
+                        <span class="task-title">${escapeHTML(todo.description)}</span>
+                        <div class="task-meta">
+                            <span class="${dueDateClass}">
+                                <i class="far fa-calendar-alt"></i> ${todo.dueDate || 'No Date'}
+                            </span>
+                            <span class="priority-badge ${todo.priority || 'low'}">${todo.priority || 'low'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-right">
+                    <button class="task-action-btn edit-task-btn" title="Edit Task">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="task-action-btn delete-task-btn" title="Delete Task">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
             `;
-            titleDiv.dataset.index = idx;
-            titleDiv.addEventListener('click', confirmRemoveProject);
-        removeProjectPage.appendChild(titleDiv);
-    });
+            
+            // Checkbox completed toggle listener
+            taskCard.querySelector('.task-checkbox-wrapper').addEventListener('click', () => {
+                let currentTodos = JSON.parse(localStorage.getItem('todos'));
+                const currentTodo = currentTodos[activeProjectIdx].todos[todoIdx];
+                currentTodo.completedStatus = !currentTodo.completedStatus;
+                localStorage.setItem('todos', JSON.stringify(currentTodos));
+                renderActiveProject();
+            });
+            
+            // Edit task trigger
+            taskCard.querySelector('.edit-task-btn').addEventListener('click', () => {
+                document.getElementById('edit-project-idx').value = activeProjectIdx;
+                document.getElementById('edit-todo-idx').value = todoIdx;
+                document.getElementById('edit-todo-description').value = todo.description;
+                document.getElementById('edit-todo-due-date').value = todo.dueDate || '';
+                
+                const pVal = todo.priority || 'low';
+                const rad = document.getElementById(`edit-priority-${pVal}`);
+                if (rad) rad.checked = true;
+                
+                document.getElementById('edit-dialog').showModal();
+            });
+            
+            // Delete task handler
+            taskCard.querySelector('.delete-task-btn').addEventListener('click', () => {
+                if (confirm(`Are you sure you want to delete the task "${todo.description}"?`)) {
+                    let currentTodos = JSON.parse(localStorage.getItem('todos'));
+                    currentTodos[activeProjectIdx].todos.splice(todoIdx, 1);
+                    localStorage.setItem('todos', JSON.stringify(currentTodos));
+                    renderActiveProject();
+                }
+            });
+            
+            tasksContainer.appendChild(taskCard);
+        });
+    }
+    
+    contentEl.appendChild(tasksContainer);
+};
 
-    contentDiv.appendChild(removeProjectPage);
-    contentDiv.appendChild(goBackButton);
-}
-
-const returnToHome = (e) => {
-    const contentDiv = e.target.parentElement;
-    const removeProjectPage = contentDiv.querySelector('.remove-project-page');
-    const goBackBtn = e.target;
-    contentDiv.removeChild(goBackBtn);
-    contentDiv.removeChild(removeProjectPage);
-    contentDiv.appendChild(showTitles());
-}
-
-const confirmRemoveProject = (e) =>{
-    let localStorageArr = JSON.parse(localStorage.getItem('todos'));
-    const contentDiv = e.target.parentElement.parentElement.parentElement.parentElement;
-    const removeProjectPage = contentDiv.querySelector('.remove-project-page');
-    const goBackBtn = contentDiv.querySelector('.go-back-button');
-    const projectIdx = e.target.parentElement.parentElement.dataset.index;
-    const projectTitle = localStorageArr[projectIdx].title;
-
-    localStorageArr.splice(projectIdx, 1);
-    localStorage.setItem('todos', JSON.stringify(localStorageArr));
-
-    contentDiv.removeChild(removeProjectPage);
-    contentDiv.removeChild(goBackBtn);
-    const removeP = document.createElement('p');
-        removeP.innerText = `Project "${projectTitle}" Removed!`;
-        removeP.classList.add('remove-message');
-
-        contentDiv.appendChild(removeP);
-        contentDiv.appendChild(showTitles());
-        setTimeout(() => {
-            contentDiv.removeChild(removeP);
-        }, 1000);
-}
-
-export {homePage, showTitles, showTodos, addNewProject, deleteProject, deleteTodo, markComplete}
+export { renderSidebar, renderActiveProject };

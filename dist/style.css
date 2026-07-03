@@ -1,185 +1,701 @@
+/* ==========================================================================
+   TaskFlow Custom Stylesheet
+   Design Paradigm: Modern Glassmorphism & Fluid Layouts
+   ========================================================================== */
+
+:root {
+    --bg-primary: #0b0f19;
+    --bg-secondary: #121826;
+    --bg-sidebar: rgba(18, 24, 38, 0.7);
+    --bg-card: rgba(30, 41, 59, 0.45);
+    
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(99, 102, 241, 0.4);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --accent-indigo: #6366f1;
+    --accent-indigo-glow: rgba(99, 102, 241, 0.15);
+    --accent-indigo-hover: #4f46e5;
+    
+    --priority-low: #38bdf8;
+    --priority-medium: #fbbf24;
+    --priority-high: #f87171;
+    
+    --complete-color: #34d399;
+    
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
+    
+    --sidebar-width: 280px;
+    --header-height: 70px;
+    --footer-height: 40px;
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 html, body {
     height: 100%;
-    margin: 0;
-    padding: none;
-    box-sizing: border-box;
+    background-color: var(--bg-primary);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.1) 0px, transparent 50%);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* App Layout Grid */
+.app-header {
+    height: var(--header-height);
+    background-color: rgba(11, 15, 25, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 10;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    color: var(--accent-indigo);
+    background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.user-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--complete-color);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--complete-color);
+}
+
+/* App Container */
+.app-container {
+    height: calc(100% - var(--header-height) - var(--footer-height));
+    display: flex;
     width: 100%;
-    padding: 10px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-sidebar);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.add-project-trigger {
+    background: var(--accent-indigo-glow);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.add-project-trigger:hover {
+    background: var(--accent-indigo);
+    border-color: var(--accent-indigo);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+}
+
+.projects-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.projects-nav::-webkit-scrollbar {
+    width: 4px;
+}
+.projects-nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: var(--transition-smooth);
+    border: 1px solid transparent;
+}
+
+.project-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-color);
+}
+
+.project-item.active {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.25);
+}
+
+.project-item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow: hidden;
+}
+
+.project-item-left i {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+}
+
+.project-item.active .project-item-left i {
+    color: var(--accent-indigo);
+}
+
+.project-title-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-secondary);
+}
+
+.project-item.active .project-title-text {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.delete-project-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.project-item:hover .delete-project-btn {
+    opacity: 1;
+}
+
+.delete-project-btn:hover {
+    color: var(--priority-high);
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+    gap: 1rem;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--text-muted) 0%, rgba(99, 102, 241, 0.2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.empty-state h3 {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Active Project Header */
+.project-header-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.project-header-info h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.project-header-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.add-task-btn {
+    background: var(--accent-indigo);
+    border: 1px solid var(--accent-indigo);
     color: #fff;
-    background-color: rgb(130, 143, 255);
-}
-
-.navbar i {
-    padding-right: 20px;
-    transition: color .5s ease;
-}
-
-.navbar i:hover{
-    color:rgb(255, 208, 0);
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     cursor: pointer;
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-smooth);
 }
 
-#content {
-    margin-top: 50px;
-    display: grid;
+.add-task-btn:hover {
+    background: var(--accent-indigo-hover);
+    border-color: var(--accent-indigo-hover);
+    transform: translateY(-2px);
+}
+
+/* Task List */
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(8px);
+}
+
+.task-card:hover {
+    transform: translateX(4px);
+    border-color: var(--border-hover);
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Custom Checkbox */
+.task-checkbox-wrapper {
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-#add-todo-project-form {
-    text-align: center;
-    background-color: red;
+.task-checkbox-wrapper:hover {
+    color: var(--accent-indigo);
 }
 
-.add-new-project {
-    display: grid;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+.task-checkbox-wrapper .fa-check-circle {
+    color: var(--complete-color);
 }
 
-.add-new-project input{
-    display: block;
-}
-
-.remove-message {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    align-items: center;
-}
-
-.project {
-    display: block;
-}
-
-.project-title{
+.task-content {
     display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow: hidden;
 }
 
-.add-todo-btn {
-    margin-left: 10px;
+.task-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: var(--transition-smooth);
 }
 
-.add-todo-btn:hover{
-    color: rgb(79, 255, 138);
-}
-
-li {
-    display: flex;
-    list-style-type: none;
-}
-
-li p {
-    margin-left: 10px;
-    cursor: pointer;
-    margin: 0; 
-    padding: none;
-}
-
-.todo {
-    z-index: 1;
-}
-
-.todo i {
-    padding-right: 10px;
-}
-
-.todo-complete p{
-    color:rgb(161, 161, 161);
+.task-card.completed .task-title {
+    color: var(--text-muted);
     text-decoration: line-through;
 }
 
-.delete-todo {
-    padding-left: 10px;
-    color: red;
-    z-index: 1000;
-}
-
-.edit-todo{
-    color: rgb(82, 82, 82);
-}
-
-.edit-todo:hover{
-    cursor: pointer;
-    color:rgb(128, 128, 128);
-}
-
-.delete-todo:hover{
-    cursor: pointer;
-    color: rgb(255, 155, 155);
-}
-
-.remove-project-page {
-    text-align: center;
-    font-weight: bold;
-}
-
-.title-div {
+.task-meta {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }
 
-.title-div p {
-    margin-left: 10px;
+.task-due-date {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
-.title-div p:hover {
+.task-due-date.overdue {
+    color: var(--priority-high);
+    font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-badge {
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+}
+
+.priority-badge.low {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--priority-low);
+    border-color: rgba(56, 189, 248, 0.2);
+}
+
+.priority-badge.medium {
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--priority-medium);
+    border-color: rgba(251, 191, 36, 0.2);
+}
+
+.priority-badge.high {
+    background: rgba(248, 113, 113, 0.1);
+    color: var(--priority-high);
+    border-color: rgba(248, 113, 113, 0.2);
+}
+
+.task-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.task-action-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
     cursor: pointer;
-    color: red;
-}
-
-.get-todo-form {
-    display: grid;
-    text-align: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
     align-items: center;
     justify-content: center;
+    transition: var(--transition-smooth);
 }
 
-.todo-priority > * {
-    padding: 0;
-    margin: 0;
+.task-action-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.todo-priority div{
+.edit-task-btn:hover {
+    color: var(--accent-indigo);
+}
+
+.delete-task-btn:hover {
+    color: var(--priority-high);
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Footer Styling */
+.app-footer {
+    height: var(--footer-height);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
     display: flex;
-    justify-content: center;
-}
-
-.edit-todo-form {
-    display: grid;
-    text-align: center;
     align-items: center;
     justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    z-index: 10;
 }
 
-.edit-priority-form > * {
-    display: flex;
-    justify-content: center;
-}
+/* ==========================================================================
+   Modals & Dialogs (Native Dialog Overlay styling)
+   ========================================================================== */
 
-.todo-priority div input {
-    margin-left: 10px;
-}
-
-.confirm-message {
-    font-weight: bold;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    background-color: green;
-}
-
-.footer {
+.modal-dialog {
+    border: 1px solid var(--border-color);
+    background: rgba(18, 24, 38, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 2rem;
+    color: var(--text-primary);
+    max-width: 450px;
+    width: 90%;
+    box-shadow: var(--shadow-main);
     position: fixed;
-    left: 0;
-    bottom: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    transition: all 0.30s cubic-bezier(0.34, 1.56, 0.64, 1);
+    outline: none;
+}
+
+.modal-dialog[open] {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.modal-dialog::backdrop {
+    background: rgba(7, 10, 18, 0.6);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
+}
+
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.dialog-form h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.2px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"] {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
     width: 100%;
-    padding: 2px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus {
+    outline: none;
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 0 2px var(--accent-indigo-glow);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Priority Radio Group */
+.priority-selector {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.priority-selector input[type="radio"] {
+    display: none;
+}
+
+.priority-label {
+    flex: 1;
     text-align: center;
+    padding: 0.6rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+    color: var(--text-secondary);
+}
+
+.priority-selector input[id*="low"]:checked + .low-label {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--priority-low);
+    border-color: var(--priority-low);
+}
+
+.priority-selector input[id*="medium"]:checked + .medium-label {
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--priority-medium);
+    border-color: var(--priority-medium);
+}
+
+.priority-selector input[id*="high"]:checked + .high-label {
+    background: rgba(248, 113, 113, 0.15);
+    color: var(--priority-high);
+    border-color: var(--priority-high);
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: var(--transition-smooth);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+}
+
+.btn-primary {
+    background: var(--accent-indigo);
+    border: 1px solid var(--accent-indigo);
     color: #fff;
-    background-color: rgb(130, 143, 255);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:hover {
+    background: var(--accent-indigo-hover);
+    border-color: var(--accent-indigo-hover);
+}
+
+/* ==========================================================================
+   Responsive Styling (Collapses Layout on smaller screens)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        max-height: 250px;
+    }
+    
+    .main-content {
+        padding: 1.5rem;
+        overflow-y: visible;
+    }
+    
+    .task-card {
+        padding: 0.85rem 1rem;
+    }
+    
+    .logo span {
+        font-size: 1.1rem;
+    }
 }

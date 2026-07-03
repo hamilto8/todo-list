@@ -1,8 +1,6 @@
 import todo from './todo';
 import todoListArr from './todoProjectList';
 
-let demoStart = JSON.parse(localStorage.getItem('demoStart'));
-
 class todoProject {
     constructor(title = 'Untitled Project', shown = false, todos = []){
         this.title = title;
@@ -17,12 +15,16 @@ const secondProject = new todoProject('My Second Project', false);
 const firstTodo = new todo('Buy Milk', false, '2021-02-11', 'low');
 const secondTodo = new todo('Go to work', false, '2022-03-01', 'low');
 
-firstProject.todos.push(JSON.stringify(firstTodo));
-firstProject.todos.push(JSON.stringify(secondTodo));
+firstProject.todos.push(firstTodo);
+firstProject.todos.push(secondTodo);
 
-let localStorageArr = JSON.parse(localStorage.getItem('todos'));
+let demoStart = localStorage.getItem('demoStart');
 if(demoStart === null){
-    localStorage.setItem('demoStart', JSON.stringify('1'));
+    localStorage.setItem('demoStart', '1');
+    let currentTodos = JSON.parse(localStorage.getItem('todos'));
+    if (!currentTodos || currentTodos.length === 0) {
+        localStorage.setItem('todos', JSON.stringify([firstProject, secondProject]));
+    }
 }
 
 let todoProjectListUl = document.createElement('ul');
